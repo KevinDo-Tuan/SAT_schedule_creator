@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Your SAT Score</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 min-h-screen flex flex-col justify-center items-center font-sans p-4">
+
+  <div class="max-w-xl w-full bg-white shadow-xl rounded-2xl p-6">
+    <h1 class="text-3xl md:text-4xl font-bold text-center text-purple-600 mb-4">
+      🎯 Let's Kickstart Your SAT Journey!
+    </h1>
+    <p class="text-center text-gray-600 mb-6">
+      Upload a screenshot or image of your most recent SAT score. We'll take it from there. 📈✨
+    </p>
+
+    <!-- Upload Form -->
+    <form action="/upload-score" method="POST" enctype="multipart/form-data" class="space-y-6">
+      <label for="fileUpload" class="block w-full border-4 border-dashed border-purple-300 rounded-xl p-6 text-center text-gray-500 hover:border-purple-500 cursor-pointer transition">
+        <input id="fileUpload" type="file" name="scoreImage" class="hidden" accept="image/*" required />
+        <span class="block text-lg font-medium">📸 Click to upload or drag your image here</span>
+        <small class="block mt-2 text-gray-400">Accepted formats: JPG, PNG</small>
+      </label>
+
+      <!-- Optional: Add a progress bar later -->
+      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300 hidden" id="progressBar">
+        <div class="bg-purple-500 h-2.5 rounded-full" style="width: 40%"></div>
+      </div>
+
+      <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl text-lg font-semibold transition duration-200">
+        🚀 Upload & Generate Plan
+      </button>
+    </form>
+
+    <div class="text-center text-sm text-gray-400 mt-6">
+      We respect your privacy. Your data is never saved. 🔐
+    </div>
+  </div>
+
+</body>
+</html>
