@@ -11,7 +11,7 @@ text = pytesseract.image_to_string(img, lang='eng')
 print(text)
 
 
-import google.generativeai1 as genai
+import google.generativeai as genai
 
 
 
@@ -21,9 +21,13 @@ genai.configure(api_key="AIzaSyC1wn5_K0JWOhOgvHg0lw1UOn9XHBrdSvA")
 
 # Initialize the model
 model = genai.GenerativeModel("gemini-1.5-flash")
+promptpy = open("backend/prompt.md", "r").read().strip()
 
-prompt = "I have text, list for me their overall SAT score, Math score, Reading and writing. Always return a dictionary with the keys 'SAT', 'Math', 'Reading', and 'Writing'. If the information is not available, return None for that key. " 
-    
+prompt = {
+    "role": "user",
+    "parts": [promptpy]
+}
+
 # Persistent chat session
 chat = model.start_chat(history=[prompt])
 
@@ -33,8 +37,6 @@ chat = model.start_chat(history=[prompt])
 def get_response(message):
     response = chat.send_message(message)
     return response.text
-
-
 
 
 reply = get_response(text)

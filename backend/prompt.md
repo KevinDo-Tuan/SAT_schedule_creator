@@ -1,0 +1,1 @@
+I have text, list for me their overall SAT score, Math score, Reading and writing. Always return a dictionary with the keys 'SAT', 'Math', 'Reading', and 'Writing'. If the information is not available, return None for that key.
