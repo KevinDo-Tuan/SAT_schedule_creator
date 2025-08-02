@@ -3,7 +3,9 @@ import os
 from werkzeug.utils import secure_filename
 from PIL import Image
 import pytesseract
-import google.generativeai as genai
+import base64
+import requests
+from openai import OpenAI
 import json
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
@@ -13,6 +15,7 @@ import re
 import socket
 import uuid
 import time
+import glob
 from functools import wraps
 import pandas as pd
 
@@ -70,154 +73,206 @@ def get_schedule(schedule_id):
 def get_latest_pdf():
     """Get the most recently created PDF file from the recorded_scores directory"""
     try:
-        pdf_files = glob.glob(os.path.join(RECORDED_SCORES_FOLDER, '*.pdf'))
+        # Ensure the directory exists
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+        
+        # Get all PDF files in the directory
+        pdf_files = glob.glob(os.path.join(UPLOAD_FOLDER, '*.pdf'))
         if not pdf_files:
+            print("No PDF files found in the directory")
             return None
+            
         # Sort by creation time (newest first) and return the first one
         latest_pdf = max(pdf_files, key=os.path.getctime)
+        print(f"Found latest PDF: {latest_pdf}")
         return latest_pdf
     except Exception as e:
         print(f"Error finding latest PDF: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return None
 
 def generate_sat_schedule(score_data):
     """Generate a structured SAT study schedule based on score data"""
+    print("\n=== Starting generate_sat_schedule ===")
+    print(f"Input score_data type: {type(score_data)}")
+    
+    if not score_data:
+        error_msg = "No score data provided"
+        print(f"Error: {error_msg}")
+        return {'error': error_msg}
+    
     try:
-        # Initialize Gemini model
-        genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-        model = genai.GenerativeModel('gemini-pro')
+        print("Calling generate_schedule...")
+        result = generate_schedule(score_data)
         
-        # Read the prompt template
-        with open('prompt.md', 'r', encoding='utf-8') as f:
-            prompt_template = f.read()
+        if not result or 'status' not in result:
+            error_msg = "Invalid response from generate_schedule"
+            print(f"Error: {error_msg}")
+            return {'error': error_msg}
         
-        # Format the prompt with the score data
-        prompt = f"""{prompt_template}
+        if result['status'] == 'error':
+            error_msg = result.get('error', 'Unknown error in generate_schedule')
+            print(f"Error from generate_schedule: {error_msg}")
+            return {'error': error_msg}
         
-        Here is the student's score data:
-        {score_data}
+        print(f"Successfully generated schedule with ID: {result.get('schedule_id')}")
+        print(f"Schedule data keys: {result.keys()}")
         
-        Please generate a detailed SAT study schedule based on this information.
-        """
+        # Ensure the schedule has the required structure
+        schedule = result.get('schedule', {})
         
-        # Generate the schedule
-        response = model.generate_content(prompt)
+        if 'sections' not in schedule:
+            schedule['sections'] = [
+                {
+                    'name': 'Reading and Writing',
+                    'focus_areas': [],
+                    'study_materials': []
+                },
+                {
+                    'name': 'Math',
+                    'focus_areas': [],
+                    'study_materials': []
+                }
+            ]
         
-        # Parse the response into a structured format
-        schedule = {
-            "sections": [],
-            "practice_tests": [],
-            "resources": [],
-            "timeline": []
+        # Add metadata
+        schedule['generated_at'] = datetime.now().isoformat()
+        schedule['schedule_id'] = result.get('schedule_id')
+        
+        return {
+            'status': 'success',
+            'schedule': schedule,
+            'schedule_id': result.get('schedule_id')
         }
         
-        # Basic parsing of the response (this can be enhanced based on your needs)
-        text = response.text
+    except Exception as e:
+        error_msg = f"Error in generate_sat_schedule: {str(e)}"
+        print(error_msg)
+        import traceback
+        traceback.print_exc()
+        return {'error': error_msg}
+
+def encode_image_to_base64(image_path):
+    """Encode image file to base64 string"""
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
+
+def extract_text_with_gpt4_mini(image_path, file_type):
+    """Extract text using GPT-4.1-mini Vision API"""
+    try:
+        # Initialize the OpenAI client
+        api_key = os.getenv('OPENAI_API_KEY')
+        if not api_key:
+            return {"error": "OPENAI_API_KEY not found in environment variables"}
         
-        # Extract sections (this is a simplified example)
-        if "Reading and Writing" in text:
-            schedule["sections"].append({
-                "name": "Reading and Writing",
-                "focus_areas": [],
-                "study_materials": []
-            })
+        client = OpenAI(api_key=api_key)
         
-        if "Math" in text:
-            schedule["sections"].append({
-                "name": "Math",
-                "focus_areas": [],
-                "study_materials": []
-            })
+        # Read the file and encode it
+        base64_image = encode_image_to_base64(image_path)
         
-        # Add more parsing logic here based on your specific needs
+        # Create the prompt for text extraction
+        prompt = ("Extract all text from this document. Be thorough and include all visible text. "
+                "If this is an SAT score report, extract all scores and section details.")
         
-        return schedule
+        # Make the API call using the specified format
+        response = client.responses.create(
+            model="gpt-4.1-mini",
+            input=prompt,
+            tools=[{"type": "text_extraction"}],
+            image_input=f"data:image/{file_type};base64,{base64_image}"
+        )
+        
+        # Extract the text from the response
+        extracted_text = response.choices[0].message.content
+        
+        if not extracted_text.strip():
+            return {"error": "No text could be extracted from the document"}
+            
+        return {"text": extracted_text, "source": "gpt-4.1-mini"}
         
     except Exception as e:
-        print(f"Error generating SAT schedule: {str(e)}")
-        return None
+        return {"error": f"Error processing document with GPT-4.1-mini: {str(e)}"}
 
 def process_image_to_text(image_path):
-    """Extract text from image using OCR or Gemini for PDFs"""
+    """Extract text from image or PDF using GPT-4.1-mini Vision API"""
     try:
         if not os.path.exists(image_path):
             return {"error": "File not found"}
             
-        if image_path.lower().endswith(('.png', '.jpg', '.jpeg')):
-            # Process images with Tesseract
-            try:
-                img = Image.open(image_path)
-                text = pytesseract.image_to_string(img, lang='eng')
-                if not text.strip():
-                    return {"error": "No text could be extracted from the image"}
-                return {"text": text, "source": "tesseract"}
-                
-            except Exception as e:
-                return {"error": f"Error processing image with Tesseract: {str(e)}"}
-                
-        elif image_path.lower().endswith('.pdf'):
-            # Process PDFs with Gemini Vision
-            try:
-                with open(image_path, 'rb') as pdf_file:
-                    pdf_data = pdf_file.read()
-                model = genai.GenerativeModel('gemini-pro-vision')
-                response = model.generate_content(["Extract all text from this document:", pdf_data])
-                if not response.text.strip():
-                    return {"error": "No text could be extracted from the PDF"}
-                return {"text": response.text, "source": "gemini-vision"}
-                
-            except Exception as e:
-                return {"error": f"Error processing PDF with Gemini: {str(e)}"}
+        # Get file extension and map to MIME type
+        file_ext = os.path.splitext(image_path.lower())[1][1:]  # Remove the dot
+        
+        if file_ext in ['png', 'jpg', 'jpeg', 'pdf']:
+            # Map file extension to MIME type
+            mime_type = 'pdf' if file_ext == 'pdf' else 'jpeg'  # Use jpeg for all image types
+            
+            # Process with GPT-4.1-mini Vision
+            result = extract_text_with_gpt4_mini(image_path, mime_type)
+            return result
+            
         else:
             return {"error": "Unsupported file format. Please upload a PNG, JPG, or PDF file."}
             
     except Exception as e:
         return {"error": f"Unexpected error: {str(e)}"}
+        print(error_msg)
+        return {"error": error_msg}
 
-# Configure Gemini
-gemini_api_key = os.getenv('GEMINI_API_KEY')
-if not gemini_api_key:
-    raise ValueError("GEMINI_API_KEY not found in environment variables")
+# Configure OpenAI API
+openai_api_key = os.getenv('OPENAI_API_KEY')
+if not openai_api_key:
+    raise ValueError("OPENAI_API_KEY not found in environment variables")
 
-genai.configure(api_key=gemini_api_key)
 path_to_prompt = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'prompt.md')
 
 # Register template filters
 register_template_filters(app)
 
-# Initialize Gemini model
-model = genai.GenerativeModel('gemini-pro')
 
-def generate_schedule(text):
-    """Generate SAT study schedule using Gemini"""
+
+import traceback
+import sys
+import time
+
+def generate_schedule(image_path):
+    """Generate SAT study schedule using OpenAI's GPT-4 Vision API
+    
+    Args:
+        image_path (str): Path to the image/PDF file to process
+        
+    Returns:
+        dict: Status and generated schedule data
+    """
     try:
-        # Load the prompt from file
-        with open(path_to_prompt, 'r', encoding='utf-8') as f:
-            prompt_text = f.read()
+        print("[generate_schedule] Starting schedule generation...")
+        start_time = time.time()
         
-        # Initialize the model
-        model = genai.GenerativeModel('gemini-pro')
+        # Initialize the OpenAI client
+        try:
+            api_key = os.getenv('OPENAI_API_KEY')
+            if not api_key:
+                raise ValueError("OPENAI_API_KEY not found in environment variables")
+                
+            client = OpenAI(api_key=api_key)
+        except Exception as init_error:
+            print("[generate_schedule] OpenAI client initialization failed:", init_error)
+            traceback.print_exc()
+            return {
+                'status': 'error',
+                'error': f'OpenAI client initialization failed: {init_error}'
+            }
         
-        # Send the prompt and text to Gemini
-        response = model.generate_content([prompt_text, text])
+        # Read the prompt from the file
         
-        # Extract JSON from the response
-        json_str = response.text
         
-        # Clean the JSON string (remove markdown code blocks if present)
-        json_str = re.sub(r'```json\n|```', '', json_str).strip()
-        
-        # Parse the JSON response
-        schedule = json.loads(json_str)
-        
-        # Add timestamp
-        schedule['generated_at'] = datetime.now().isoformat()
-        
-        return {"schedule": schedule, "status": "success"}
-    except json.JSONDecodeError as e:
-        return {"error": f"Failed to parse schedule: {str(e)}", "raw_response": json_str}
     except Exception as e:
-        return {"error": f"Error generating schedule: {str(e)}"}
+        print(f"[generate_schedule] Unexpected error: {str(e)}")
+        traceback.print_exc()
+        return {
+            'status': 'error',
+            'error': str(e)
+        }
 
 def allowed_file(filename):
     """Check if the file has an allowed extension"""
@@ -251,36 +306,55 @@ def index():
 
 @app.route('/api/upload', methods=['POST'])
 def handle_upload():
+    print("\n=== New File Upload Request ===")
+    print(f"Files received: {request.files}")
     
     if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
+        error_msg = 'No file part in the request'
+        print(f"Error: {error_msg}")
+        return jsonify({'error': error_msg}), 400
     
     file = request.files['file']
     if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
+        error_msg = 'No selected file'
+        print(f"Error: {error_msg}")
+        return jsonify({'error': error_msg}), 400
     
     if not allowed_file(file.filename):
-        return jsonify({'error': 'File type not allowed. Please upload only a PNG, JPG, or PDF file.'}), 400
+        error_msg = 'File type not allowed. Please upload only a PNG, JPG, or PDF file.'
+        print(f"Error: {error_msg}")
+        return jsonify({'error': error_msg}), 400
+    
+    # Ensure upload directory exists
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    os.makedirs(SCHEDULES_FOLDER, exist_ok=True)
+    print(f"Upload folder: {os.path.abspath(UPLOAD_FOLDER)}")
+    print(f"Schedules folder: {os.path.abspath(SCHEDULES_FOLDER)}")
     
     try:
         # Generate a unique ID for this request
         request_id = str(uuid.uuid4())
+        print(f"Generated request ID: {request_id}")
         
         # Save the uploaded file with a unique name
         filename = secure_filename(f"{request_id}_{file.filename}")
         filepath = os.path.join(UPLOAD_FOLDER, filename)
+        print(f"Saving file to: {filepath}")
         file.save(filepath)
         
-        # Get the latest PDF (which should be the one just uploaded)
-        latest_pdf = get_latest_pdf()
-        if not latest_pdf:
-            return jsonify({'error': 'Failed to process the uploaded file'}), 500
+        # Verify file was saved
+        if not os.path.exists(filepath):
+            error_msg = 'Failed to save uploaded file'
+            print(f"Error: {error_msg}")
+            return jsonify({'error': error_msg}), 500
+            
+        print(f"File saved successfully: {os.path.getsize(filepath)} bytes")
         
         # Store processing status
         processing_status[request_id] = {
             'status': 'processing',
             'start_time': time.time(),
-            'file_path': latest_pdf,
+            'file_path': filepath,  # Use the actual saved file path
             'schedule_id': None,
             'error': None
         }
@@ -288,51 +362,84 @@ def handle_upload():
         # Start background processing
         def process_in_background():
             try:
+                print(f"\n=== Processing file in background (request_id: {request_id}) ===")
+                print(f"Processing file: {filepath}")
+                
                 # Process the file
-                result = process_image_to_text(latest_pdf)
+                result = process_image_to_text(filepath)
+                print(f"Processed text (first 100 chars): {str(result)[:100]}...")
                 
                 if 'error' in result:
-                    raise Exception(result['error'])
+                    error_msg = f"Error processing file: {result['error']}"
+                    print(error_msg)
+                    raise Exception(error_msg)
                 
                 # Generate SAT schedule
-                schedule = generate_sat_schedule(result.get('text', ''))
+                print("Generating schedule...")
+                schedule_result = generate_sat_schedule(result.get('text', ''))
                 
-                if not schedule:
-                    raise Exception('Failed to generate schedule')
+                if not schedule_result or 'error' in schedule_result:
+                    error_msg = schedule_result.get('error', 'Failed to generate schedule')
+                    print(f"Error generating schedule: {error_msg}")
+                    raise Exception(error_msg)
                 
                 # Save the schedule
-                schedule_id = save_schedule(schedule)
+                print("Saving schedule...")
+                schedule_id = save_schedule(schedule_result.get('schedule', {}))
+                
+                if not schedule_id:
+                    error_msg = 'Failed to save schedule - no schedule ID returned'
+                    print(error_msg)
+                    raise Exception(error_msg)
+                
+                print(f"Schedule saved with ID: {schedule_id}")
                 
                 # Update processing status
                 processing_status[request_id].update({
                     'status': 'completed',
                     'schedule_id': schedule_id,
-                    'end_time': time.time()
+                    'end_time': time.time(),
+                    'schedule_path': get_schedule_path(schedule_id)
                 })
                 
+                print(f"Background processing completed for request_id: {request_id}")
+                
             except Exception as e:
-                print(f"Error processing file: {str(e)}")
+                error_msg = f"Error in background processing: {str(e)}"
+                print(error_msg)
+                import traceback
+                traceback.print_exc()
+                
                 processing_status[request_id].update({
                     'status': 'error',
                     'error': str(e),
                     'end_time': time.time()
                 })
         
-        # Start the background thread
+        # Start the background task
+        print("Starting background processing thread...")
+        import threading
         thread = threading.Thread(target=process_in_background)
         thread.daemon = True
         thread.start()
         
-        # Return the request ID
-        return jsonify({
+        # Return the request ID to check status later
+        response = {
             'request_id': request_id,
             'status': 'processing',
-            'message': 'File uploaded and processing started',
+            'message': 'Your file is being processed. Please wait...',
             'check_status_url': f'/api/status/{request_id}'
-        })
+        }
+        
+        print(f"Returning response: {response}")
+        return jsonify(response)
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        error_msg = f"Unexpected error: {str(e)}"
+        print(error_msg)
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': error_msg}), 500
 
 @app.route('/api/status/<request_id>', methods=['GET'])
 def check_status(request_id):
@@ -423,6 +530,8 @@ def upload_file():
     
     if file and file_ext in ALLOWED_EXTENSIONS:
         try:
+            print("Starting file upload and processing...")  # Debug log
+            
             # Get client IP address for filename
             client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.environ['REMOTE_ADDR'])
             # Clean IP address to be filesystem-safe
@@ -432,14 +541,16 @@ def upload_file():
             os.makedirs(UPLOAD_FOLDER, exist_ok=True)
             
             # Always save as PDF
-            new_filename = f"{safe_ip}.pdf"
+            new_filename = f"{safe_ip}_{int(time.time())}.pdf"  # Add timestamp for uniqueness
             filepath = os.path.join(UPLOAD_FOLDER, new_filename)
+            
+            print(f"Saving file to: {filepath}")  # Debug log
             
             # If the uploaded file is a PDF, save it directly
             if file_ext == 'pdf':
                 file.save(filepath)
             # Otherwise, convert it to PDF
-            if file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+            elif file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
                 # For images, open with PIL and save as PDF
                 img = Image.open(file)
                 # Convert to RGB if necessary (for PNGs with transparency)
@@ -452,35 +563,61 @@ def upload_file():
                 # Save as PDF
                 img.save(filepath, 'PDF', resolution=100.0)
             else:
-                # For PDFs, just save as is
+                # For other allowed file types, just save as is
                 file.save(filepath)
+            
+            print("File saved, starting text extraction...")  # Debug log
             
             # Process the image with OCR and Gemini
             result = process_image_to_text(filepath)
             
             # If there was an error processing the image
             if 'error' in result:
+                print(f"Error processing image: {result['error']}")  # Debug log
                 return jsonify({
+                    'status': 'error',
                     'message': 'File uploaded but could not be processed',
                     'error': result['error'],
                     'filename': new_filename
-                }), 200
-                
-            # If we got scores back
+                }), 400
+            
+            print("Text extracted, generating schedule...")  # Debug log
+            
+            # Generate the schedule using the extracted text
+            schedule_result = generate_schedule(result.get('text', ''))
+            
+            if schedule_result.get('status') != 'success':
+                print(f"Error generating schedule: {schedule_result.get('error')}")  # Debug log
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Failed to generate schedule',
+                    'error': schedule_result.get('error', 'Unknown error')
+                }), 500
+            
+            print(f"Schedule generated with ID: {schedule_result.get('schedule_id')}")  # Debug log
+            
+            # Return success response with schedule ID and redirect URL
             return jsonify({
-                'message': 'File successfully processed',
-                'filename': new_filename,
-                'scores': result.get('scores', {}),
-                'raw_text': result.get('raw_text', '')
+                'status': 'completed',
+                'message': 'Schedule generated successfully',
+                'schedule_id': schedule_result.get('schedule_id'),
+                'redirect_url': f'/answer?schedule_id={schedule_result.get("schedule_id")}'
             }), 200
             
         except Exception as e:
+            print(f"Unexpected error: {str(e)}")  # Debug log
+            import traceback
+            traceback.print_exc()
             return jsonify({
+                'status': 'error',
                 'error': f'Error processing file: {str(e)}',
                 'details': str(e)
             }), 500
     
-    return jsonify({'error': 'File type not allowed'}), 400
+    return jsonify({
+        'status': 'error',
+        'error': 'File type not allowed. Please upload a PDF, PNG, JPG, or JPEG file.'
+    }), 400
 
 @app.route('/api/latest_score_table')
 def get_latest_score_table():

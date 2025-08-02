@@ -22,6 +22,17 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
+        #error-message {
+            transition: all 0.3s ease;
+        }
+        #error-message.hidden {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -91,136 +102,213 @@
 
                 <div id="error-message" class="hidden mt-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
                     <i class="fas fa-exclamation-circle mr-2"></i>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const dropArea = document.getElementById('drop-area');
-                            const fileInput = document.getElementById('file-input');
-                            const fileName = document.getElementById('file-name');
-                            const fileSize = document.getElementById('file-size');
-                            const selectedFile = document.getElementById('selected-file');
-                            const removeFileBtn = document.getElementById('remove-file');
-                            const generateBtn = document.getElementById('generate-btn');
-                            const loading = document.getElementById('loading');
-                            const errorMessage = document.getElementById('error-message');
-                            let currentFile = null;
+                    <span id="error-text"></span>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Get all DOM elements
+                        const uploadContainer = document.getElementById('upload-container');
+                        const fileInput = document.getElementById('file-input');
+                        const fileName = document.getElementById('file-name');
+                        const fileSize = document.getElementById('file-size');
+                        const selectedFile = document.getElementById('selected-file');
+                        const removeFileBtn = document.getElementById('remove-file');
+                        const generateBtn = document.getElementById('generate-btn');
+                        const loading = document.getElementById('loading');
+                        const errorMessage = document.getElementById('error-message');
+                        const errorText = document.getElementById('error-text');
+                        let currentFile = null;
 
+                        // Initialize the application
+                        init();
+
+                        function init() {
+                            setupEventListeners();
+                            console.log('Page initialized');
+                        }
+
+                        function setupEventListeners() {
                             // Handle drag and drop events
-                            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                                dropArea.addEventListener(eventName, preventDefaults, false);
-                            });
+                            if (uploadContainer) {
+                                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                                    uploadContainer.addEventListener(eventName, preventDefaults, false);
+                                });
 
-                            function preventDefaults(e) {
+                                uploadContainer.addEventListener('drop', handleDrop, false);
+                                uploadContainer.addEventListener('click', function() {
+                                    if (fileInput) fileInput.click();
+                                });
+                            }
+
+                            // File input change handler
+                            if (fileInput) {
+                                fileInput.addEventListener('change', handleFileSelect, false);
+                            }
+
+                            // Remove file button
+                            if (removeFileBtn) {
+                                removeFileBtn.addEventListener('click', handleRemoveFile, false);
+                            }
+
+                            // Generate button
+                            if (generateBtn) {
+                                generateBtn.addEventListener('click', handleGenerate, false);
+                            }
+
+                            // Form submission
+                            const form = document.querySelector('form');
+                            if (form) {
+                                form.addEventListener('submit', function(e) {
+                                    e.preventDefault();
+                                    handleGenerate(e);
+                                });
+                            }
+                        }
+
+                        function preventDefaults(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+
+                        function highlight() {
+                            if (uploadContainer) {
+                                uploadContainer.classList.add('border-indigo-500', 'bg-indigo-50');
+                            }
+                        }
+
+                        function unhighlight() {
+                            if (uploadContainer) {
+                                uploadContainer.classList.remove('border-indigo-500', 'bg-indigo-50');
+                            }
+                        }
+
+                        function handleFileSelect(e) {
+                            const files = e.target.files;
+                            if (files && files.length > 0) {
+                                handleFiles({ target: { files } });
+                            }
+                        }
+
+                        function handleDrop(e) {
+                            const dt = e.dataTransfer;
+                            if (dt && dt.files) {
+                                handleFiles({ target: { files: dt.files } });
+                            }
+                        }
+
+                        function handleFiles(e) {
+                            const files = e?.target?.files;
+                            if (files && files.length > 0) {
+                                currentFile = files[0];
+                                updateFileInfo(currentFile);
+                                if (generateBtn) generateBtn.disabled = false;
+                                hideError();
+                            }
+                        }
+
+                        function updateFileInfo(file) {
+                            if (!file) return;
+                            
+                            if (fileName) fileName.textContent = file.name;
+                            if (fileSize) fileSize.textContent = formatFileSize(file.size);
+                            if (selectedFile) selectedFile.classList.remove('hidden');
+                            
+                            console.log('File selected:', file.name, formatFileSize(file.size));
+                        }
+
+                        function formatFileSize(bytes) {
+                            if (bytes === 0 || isNaN(bytes)) return '0 Bytes';
+                            const k = 1024;
+                            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                            const i = Math.floor(Math.log(bytes) / Math.log(k));
+                            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+                        }
+
+                        function handleRemoveFile(e) {
+                            if (e) {
                                 e.preventDefault();
                                 e.stopPropagation();
                             }
+                            
+                            if (fileInput) fileInput.value = '';
+                            if (selectedFile) selectedFile.classList.add('hidden');
+                            if (generateBtn) generateBtn.disabled = true;
+                            currentFile = null;
+                            
+                            console.log('File removed');
+                        }
 
-                            ['dragenter', 'dragover'].forEach(eventName => {
-                                dropArea.addEventListener(eventName, highlight, false);
-                            });
-
-                            ['dragleave', 'drop'].forEach(eventName => {
-                                dropArea.addEventListener(eventName, unhighlight, false);
-                            });
-
-                            function highlight() {
-                                dropArea.classList.add('border-indigo-500', 'bg-indigo-50');
+                        async function handleGenerate(e) {
+                            if (e) e.preventDefault();
+                            
+                            if (!currentFile) {
+                                showError('Please select a file first');
+                                return;
                             }
 
-                            function unhighlight() {
-                                dropArea.classList.remove('border-indigo-500', 'bg-indigo-50');
-                            }
+                            const formData = new FormData();
+                            formData.append('file', currentFile);
 
-                            // Handle dropped files
-                            dropArea.addEventListener('drop', handleDrop, false);
-                            fileInput.addEventListener('change', handleFiles, false);
+                            try {
+                                // Show loading state
+                                if (loading) loading.classList.remove('hidden');
+                                if (generateBtn) generateBtn.disabled = true;
+                                hideError();
 
-                            function handleDrop(e) {
-                                const dt = e.dataTransfer;
-                                const files = dt.files;
-                                handleFiles({ target: { files } });
-                            }
+                                console.log('Uploading file to /api/upload...');
+                                const response = await fetch('/api/upload', {
+                                    method: 'POST',
+                                    body: formData
+                                });
 
-                            function handleFiles(e) {
-                                const files = e.target.files;
-                                if (files.length > 0) {
-                                    currentFile = files[0];
-                                    updateFileInfo(currentFile);
-                                    generateBtn.disabled = false;
+                                if (!response.ok) {
+                                    const errorData = await response.json().catch(() => ({}));
+                                    throw new Error(errorData.error || 'Failed to process file');
                                 }
-                            }
 
-                            function updateFileInfo(file) {
-                                fileName.textContent = file.name;
-                                fileSize.textContent = formatFileSize(file.size);
-                                selectedFile.classList.remove('hidden');
-                            }
-
-                            function formatFileSize(bytes) {
-                                if (bytes === 0) return '0 Bytes';
-                                const k = 1024;
-                                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-                            }
-
-                            // Remove file
-                            removeFileBtn.addEventListener('click', () => {
-                                fileInput.value = '';
-                                selectedFile.classList.add('hidden');
-                                generateBtn.disabled = true;
-                                currentFile = null;
-                            });
-
-                            // Handle form submission
-                            document.querySelector('form').addEventListener('submit', async function(e) {
-                                e.preventDefault();
+                                const data = await response.json();
+                                console.log('Upload response:', data);
                                 
-                                if (!currentFile) {
-                                    showError('Please select a file first');
-                                    return;
+                                if (data.error) {
+                                    throw new Error(data.error);
                                 }
 
-                                const formData = new FormData();
-                                formData.append('file', currentFile);
+                                // Redirect to waiting page with the request ID
+                                console.log('Redirecting to waiting page with request_id:', data.request_id);
+                                window.location.href = `/waiting?request_id=${data.request_id}`;
 
-                                try {
-                                    // Show loading state
-                                    loading.classList.remove('hidden');
-                                    generateBtn.disabled = true;
-                                    errorMessage.classList.add('hidden');
-
-                                    // Upload file to backend
-                                    const response = await fetch('/api/upload', {
-                                        method: 'POST',
-                                        body: formData
-                                    });
-
-                                    const data = await response.json();
-
-                                    if (!response.ok) {
-                                        throw new Error(data.error || 'Failed to process file');
-                                    }
-
-                                    // Redirect to waiting page with the request ID
-                                    window.location.href = `/waiting?request_id=${data.request_id}`;
-                                    window.location.href = 'waitingpage.html';
-
-                                } catch (error) {
-                                    console.error('Error:', error);
-                                    showError(error.message || 'An error occurred while processing your request');
-                                } finally {
-                                    loading.classList.add('hidden');
-                                    generateBtn.disabled = false;
-                                }
-                            });
-
-                            function showError(message) {
-                                errorMessage.textContent = message;
-                                errorMessage.classList.remove('hidden');
-                                errorMessage.scrollIntoView({ behavior: 'smooth' });
+                            } catch (error) {
+                                console.error('Error:', error);
+                                showError(error.message || 'An error occurred while processing your request');
+                            } finally {
+                                if (loading) loading.classList.add('hidden');
+                                if (generateBtn) generateBtn.disabled = false;
                             }
-                        });
-                    </script>
+                        }
+
+                        function showError(message) {
+                            console.error('Error:', message);
+                            
+                            if (errorText) {
+                                errorText.textContent = message;
+                            }
+                            
+                            if (errorMessage) {
+                                errorMessage.classList.remove('hidden');
+                                if (errorMessage) errorMessage.scrollIntoView({ 
+                                    behavior: 'smooth', 
+                                    block: 'center' 
+                                });
+                            }
+                        }
+                        
+                        function hideError() {
+                            if (errorMessage) {
+                                errorMessage.classList.add('hidden');
+                            }
+                        }
+                    });
+                </script>
                 </div>
             </div>
         </div>
@@ -367,33 +455,77 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
 
-            // Show error message
+            // Function to show error message
             function showError(message) {
-                errorText.textContent = message;
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = message;
                 errorMessage.classList.remove('hidden');
-                resetFileInput();
+                errorMessage.classList.remove('success');
+                errorMessage.classList.add('error');
+                
+                // Scroll to error message
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
 
-            // Hide error message
+            // Function to show success message
+            function showSuccess(message) {
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = message;
+                errorMessage.classList.remove('hidden');
+                errorMessage.classList.remove('error');
+                errorMessage.classList.add('success');
+                
+                // Scroll to success message
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // Function to hide error/success message
             function hideError() {
+                const errorMessage = document.getElementById('error-message');
                 errorMessage.classList.add('hidden');
+                errorMessage.classList.remove('error', 'success');
+            }
+
+            // Function to check processing status
+            async function checkStatus(requestId) {
+                try {
+                    const response = await fetch(`/api/status/${requestId}`);
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Failed to check status');
+                    }
+                    
+                    return data;
+                } catch (error) {
+                    console.error('Error checking status:', error);
+                    throw error;
+                }
             }
 
             // Handle form submission
             generateBtn.addEventListener('click', async function() {
-                if (!fileInput.files.length) return;
+                if (!fileInput.files.length) {
+                    showError('Please select a file to upload');
+                    return;
+                }
 
                 const file = fileInput.files[0];
                 const formData = new FormData();
-                formData.append('file', file);
+                formData.append('scoreImage', file);
 
                 // Show loading state
                 loading.classList.remove('hidden');
                 generateBtn.disabled = true;
                 hideError();
+                
+                // Show initial loading message
+                const loadingText = document.querySelector('.loading-text');
+                loadingText.textContent = 'Uploading your file...';
 
                 try {
-                    const response = await fetch('/api/upload', {
+                    // Start the upload and processing
+                    const response = await fetch('/upload-score', {
                         method: 'POST',
                         body: formData
                     });
@@ -401,10 +533,53 @@
                     const data = await response.json();
 
                     if (!response.ok) {
-                        throw new Error(data.error || 'Failed to process your file');
+                        throw new Error(data.error || data.message || 'Failed to process your file');
                     }
 
-                    // Show the View Your Study Plan button
+                    // Update loading message
+                    loadingText.textContent = 'Processing your file...';
+                    console.log('Upload response:', data);
+
+                    // If processing is already complete, redirect to answer page
+                    if (data.status === 'completed' && data.redirect_url) {
+                        showSuccess('Schedule generated successfully! Redirecting...');
+                        setTimeout(() => {
+                            window.location.href = data.redirect_url;
+                        }, 1500);
+                        return;
+                    }
+                    
+                    // If processing is in progress, poll for status
+                    if (data.status === 'processing' && data.check_status_url) {
+                        loadingText.textContent = 'Generating your study plan. This may take a minute...';
+                        
+                        const pollInterval = setInterval(async () => {
+                            try {
+                                const statusResponse = await fetch(data.check_status_url);
+                                const status = await statusResponse.json();
+                                
+                                if (status.status === 'completed') {
+                                    clearInterval(pollInterval);
+                                    showSuccess('Schedule generated successfully! Redirecting...');
+                                    setTimeout(() => {
+                                        window.location.href = `/answer?schedule_id=${status.schedule_id}`;
+                                    }, 1500);
+                                } else if (status.status === 'error') {
+                                    clearInterval(pollInterval);
+                                    throw new Error(status.error || 'Failed to generate schedule');
+                                }
+                            } catch (error) {
+                                clearInterval(pollInterval);
+                                console.error('Error checking status:', error);
+                                showError(error.message || 'An error occurred while generating your study plan');
+                                loading.classList.add('hidden');
+                                generateBtn.disabled = false;
+                            }
+                        }, 2000); // Check every 2 seconds
+                        
+                    }
+                    
+                    // If we get here, show the View Your Study Plan button as a fallback
                     const nextPageBtn = document.getElementById('next-page-btn');
                     if (nextPageBtn) {
                         nextPageBtn.classList.remove('hidden');
