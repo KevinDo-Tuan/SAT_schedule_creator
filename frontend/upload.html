@@ -1,274 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Upload Your SAT Score</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 min-h-screen flex flex-col justify-center items-center font-sans p-4">
-
-  <div class="max-w-xl w-full bg-white shadow-xl rounded-2xl p-6">
-    <h1 class="text-3xl md:text-4xl font-bold text-center text-purple-600 mb-4">
-      🎯 Let's Kickstart Your SAT Journey!
-    </h1>
-    <p class="text-center text-gray-600 mb-6">
-      Upload a screenshot or image of your most recent SAT score. We'll take it from there. 📈✨
-    </p>
-
-    <!-- Success Message (initially hidden) -->
-    <div id="successMessage" class="hidden mb-6 p-6 bg-green-50 border border-green-200 rounded-xl">
-      <div class="flex items-center text-green-600 mb-4">
-        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-        <span class="text-lg font-semibold">Score Report Generated Successfully!</span>
-      </div>
-      
-      <div id="scoresContainer" class="mt-6">
-        <h3 class="text-lg font-semibold text-gray-700 mb-3">Your SAT Scores</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Total Score -->
-          <div id="totalScoreCard" class="bg-gradient-to-br from-purple-50 to-blue-50 p-5 rounded-xl border border-purple-100 hidden">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-gray-500">TOTAL SCORE</p>
-                <div id="totalScore" class="text-3xl font-bold text-purple-700">-</div>
-              </div>
-              <div class="bg-purple-100 p-3 rounded-full">
-                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <!-- Math Score -->
-          <div id="mathScoreCard" class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border border-blue-100 hidden">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-gray-500">MATH</p>
-                <div id="mathScore" class="text-2xl font-bold text-blue-700">-</div>
-              </div>
-              <div class="bg-blue-100 p-3 rounded-full">
-                <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <!-- Reading Score -->
-          <div id="readingScoreCard" class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border border-green-100 hidden">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-gray-500">READING</p>
-                <div id="readingScore" class="text-2xl font-bold text-green-700">-</div>
-              </div>
-              <div class="bg-green-100 p-3 rounded-full">
-                <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <!-- Writing Score -->
-          <div id="writingScoreCard" class="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-xl border border-amber-100 hidden">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-gray-500">WRITING</p>
-                <div id="writingScore" class="text-2xl font-bold text-amber-700">-</div>
-              </div>
-              <div class="bg-amber-100 p-3 rounded-full">
-                <svg class="w-7 h-7 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-
-    </div>
-
-    <!-- Upload Form -->
-    <form id="uploadForm" class="space-y-6">
-      <label for="fileUpload" class="block w-full border-4 border-dashed border-purple-300 rounded-xl p-8 text-center text-gray-500 hover:border-purple-500 cursor-pointer transition hover:bg-purple-50" id="dropZone">
-        <input id="fileUpload" type="file" name="scoreImage" class="hidden" accept="image/*,.pdf" required />
-        <div class="flex flex-col items-center justify-center space-y-2">
-          <svg class="w-12 h-12 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-          </svg>
-          <span class="block text-lg font-medium text-gray-700">Upload your SAT score report</span>
-          <p class="text-sm text-gray-400">Drag & drop your file here or click to browse</p>
-          <p class="text-xs text-gray-400 mt-2">Supports JPG, PNG, or PDF (Max 5MB)</p>
-        </div>
-      </label>
-
-      <!-- Optional: Add a progress bar later -->
-      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300 hidden" id="progressBar">
-        <div class="bg-purple-500 h-2.5 rounded-full" style="width: 40%"></div>
-      </div>
-
-      <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl text-lg font-semibold transition duration-200 flex items-center justify-center">
-        <span id="buttonText">Next</span>
-        <svg id="spinner" class="hidden animate-spin ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-      </button>
-    </form>
-
-    <div class="text-center text-sm text-gray-400 mt-6">
-      We respect your privacy. Your data is never saved. 🔐
-    </div>
-  </div>
-
-  <script>
-    // Handle drag and drop
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileUpload');
-    
-    // Prevent default drag behaviors
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      dropZone.addEventListener(eventName, preventDefaults, false);
-      document.body.addEventListener(eventName, preventDefaults, false);
-    });
-    
-    // Highlight drop zone when item is dragged over it
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropZone.addEventListener(eventName, highlight, false);
-    });
-    
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropZone.addEventListener(eventName, unhighlight, false);
-    });
-    
-    // Handle dropped files
-    dropZone.addEventListener('drop', handleDrop, false);
-    
-    function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    
-    function highlight() {
-      dropZone.classList.add('border-purple-500', 'bg-purple-50');
-    }
-    
-    function unhighlight() {
-      dropZone.classList.remove('border-purple-500', 'bg-purple-50');
-    }
-    
-    function handleDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-      if (files.length) {
-        fileInput.files = files;
-        // Trigger change event to update the filename display if needed
-        const event = new Event('change');
-        fileInput.dispatchEvent(event);
-      }
-    }
-    
-
-    // Handle form submission
-    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const fileInput = document.getElementById('fileUpload');
-      const successMessage = document.getElementById('successMessage');
-      const button = document.querySelector('button[type="submit"]');
-      const buttonText = document.getElementById('buttonText');
-      const spinner = document.getElementById('spinner');
-      
-      if (!fileInput.files.length) {
-        alert('Please select a file first!');
-        return;
-      }
-      
-      // Check file type
-      const file = fileInput.files[0];
-      const fileExt = file.name.split('.').pop().toLowerCase();
-      const allowedTypes = ['jpg', 'jpeg', 'png', 'pdf'];
-      
-      if (!allowedTypes.includes(fileExt)) {
-        alert('Please upload a JPG, PNG, or PDF file.');
-        return;
-      }
-      
-      const formData = new FormData();
-      formData.append('scoreImage', file);
-      
-      // Show loading state
-      button.disabled = true;
-      buttonText.textContent = 'Uploading...';
-      spinner.classList.remove('hidden');
-      successMessage.classList.add('hidden');
-      
-      try {
-        const response = await fetch('/upload-score', {
-          method: 'POST',
-          body: formData
-        });
-        
-        const result = await response.json();
-        
-        if (response.ok) {
-          // Store scores in session storage for the waiting page
-          if (result.scores) {
-            sessionStorage.setItem('scores', JSON.stringify(result.scores));
-            
-            // Show all score cards first
-            document.querySelectorAll('[id$="ScoreCard"]').forEach(el => el.classList.remove('hidden'));
-            
-            // Update scores if available, hide if not
-            if (result.scores.SAT) {
-              document.getElementById('totalScore').textContent = result.scores.SAT;
-            } else {
-              document.getElementById('totalScoreCard').classList.add('hidden');
-            }
-            
-            if (result.scores.Math) {
-              document.getElementById('mathScore').textContent = result.scores.Math;
-            } else {
-              document.getElementById('mathScoreCard').classList.add('hidden');
-            }
-            
-            if (result.scores.Reading) {
-              document.getElementById('readingScore').textContent = result.scores.Reading;
-            } else {
-              document.getElementById('readingScoreCard').classList.add('hidden');
-            }
-            
-            if (result.scores.Writing) {
-              document.getElementById('writingScore').textContent = result.scores.Writing;
-            } else {
-              document.getElementById('writingScoreCard').classList.add('hidden');
-            }
-            
-            // Redirect to waiting page
-            window.location.href = 'waitingpage.html';
-          }
-          
-          // Show success message and reset form
-          successMessage.classList.remove('hidden');
-          fileInput.value = '';
-        } else {
-          alert(result.error || 'Error uploading file');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAT Schedule Creator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .upload-area {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
         }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while uploading the file');
-      } finally {
-        // Reset button state
-        button.disabled = false;
-        buttonText.textContent = '🚀 Upload & Generate Plan';
-        spinner.classList.add('hidden');
-      }
-    });
-  </script>
+        .upload-area:hover, .upload-area.drag-over {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <h1 class="text-4xl font-bold mb-2">SAT Schedule Creator</h1>
+            <p class="text-indigo-100 text-lg">Upload your SAT scores and get a personalized study plan</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12 max-w-4xl">
+        <!-- Upload Card -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 mx-auto bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-upload text-indigo-500 text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Upload Your SAT Scores</h2>
+                    <p class="text-gray-600">Upload a screenshot, photo, or PDF of your SAT scores to generate a personalized study plan</p>
+                </div>
+
+                <!-- Upload Area -->
+                <div id="upload-container" class="upload-area rounded-lg p-8 text-center cursor-pointer mb-6">
+                    <input type="file" id="file-input" class="hidden" accept="image/*,.pdf">
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 mx-auto bg-indigo-50 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cloud-upload-alt text-indigo-400 text-2xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">
+                                <span class="text-indigo-600 font-medium">Click to upload</span> or drag and drop
+                            </p>
+                            <p class="text-sm text-gray-500 mt-1">PNG, JPG, or PDF (max. 5MB)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected File -->
+                <div id="selected-file" class="hidden items-center justify-between bg-gray-50 p-4 rounded-lg mb-6">
+                    <div class="flex items-center">
+                        <i class="far fa-file-alt text-gray-400 text-2xl mr-3"></i>
+                        <div>
+                            <p id="file-name" class="font-medium text-gray-800"></p>
+                            <p id="file-size" class="text-sm text-gray-500"></p>
+                        </div>
+                    </div>
+                    <button id="remove-file" class="text-gray-400 hover:text-red-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Generate Button -->
+                <button id="generate-btn" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg btn-primary disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Generate your Study Plan
+                </button>
+                <button onclick = "answer.html" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg btn-primary disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    next page (Remember to click "Generate your study plan first")
+                </button>
+
+                <div id="loading" class="hidden mt-6 text-center">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-indigo-500 border-t-transparent mb-3"></div>
+                    <p class="text-gray-600">Analyzing your scores and creating a personalized study plan...</p>
+                </div>
+
+                <div id="error-message" class="hidden mt-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const dropArea = document.getElementById('drop-area');
+                            const fileInput = document.getElementById('file-input');
+                            const fileName = document.getElementById('file-name');
+                            const fileSize = document.getElementById('file-size');
+                            const selectedFile = document.getElementById('selected-file');
+                            const removeFileBtn = document.getElementById('remove-file');
+                            const generateBtn = document.getElementById('generate-btn');
+                            const loading = document.getElementById('loading');
+                            const errorMessage = document.getElementById('error-message');
+                            let currentFile = null;
+
+                            // Handle drag and drop events
+                            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                                dropArea.addEventListener(eventName, preventDefaults, false);
+                            });
+
+                            function preventDefaults(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+
+                            ['dragenter', 'dragover'].forEach(eventName => {
+                                dropArea.addEventListener(eventName, highlight, false);
+                            });
+
+                            ['dragleave', 'drop'].forEach(eventName => {
+                                dropArea.addEventListener(eventName, unhighlight, false);
+                            });
+
+                            function highlight() {
+                                dropArea.classList.add('border-indigo-500', 'bg-indigo-50');
+                            }
+
+                            function unhighlight() {
+                                dropArea.classList.remove('border-indigo-500', 'bg-indigo-50');
+                            }
+
+                            // Handle dropped files
+                            dropArea.addEventListener('drop', handleDrop, false);
+                            fileInput.addEventListener('change', handleFiles, false);
+
+                            function handleDrop(e) {
+                                const dt = e.dataTransfer;
+                                const files = dt.files;
+                                handleFiles({ target: { files } });
+                            }
+
+                            function handleFiles(e) {
+                                const files = e.target.files;
+                                if (files.length > 0) {
+                                    currentFile = files[0];
+                                    updateFileInfo(currentFile);
+                                    generateBtn.disabled = false;
+                                }
+                            }
+
+                            function updateFileInfo(file) {
+                                fileName.textContent = file.name;
+                                fileSize.textContent = formatFileSize(file.size);
+                                selectedFile.classList.remove('hidden');
+                            }
+
+                            function formatFileSize(bytes) {
+                                if (bytes === 0) return '0 Bytes';
+                                const k = 1024;
+                                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+                            }
+
+                            // Remove file
+                            removeFileBtn.addEventListener('click', () => {
+                                fileInput.value = '';
+                                selectedFile.classList.add('hidden');
+                                generateBtn.disabled = true;
+                                currentFile = null;
+                            });
+
+                            // Handle form submission
+                            document.querySelector('form').addEventListener('submit', async function(e) {
+                                e.preventDefault();
+                                
+                                if (!currentFile) {
+                                    showError('Please select a file first');
+                                    return;
+                                }
+
+                                const formData = new FormData();
+                                formData.append('file', currentFile);
+
+                                try {
+                                    // Show loading state
+                                    loading.classList.remove('hidden');
+                                    generateBtn.disabled = true;
+                                    errorMessage.classList.add('hidden');
+
+                                    // Upload file to backend
+                                    const response = await fetch('/api/upload', {
+                                        method: 'POST',
+                                        body: formData
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (!response.ok) {
+                                        throw new Error(data.error || 'Failed to process file');
+                                    }
+
+                                    // Redirect to waiting page with the request ID
+                                    window.location.href = `/waiting?request_id=${data.request_id}`;
+                                    window.location.href = 'waitingpage.html';
+
+                                } catch (error) {
+                                    console.error('Error:', error);
+                                    showError(error.message || 'An error occurred while processing your request');
+                                } finally {
+                                    loading.classList.add('hidden');
+                                    generateBtn.disabled = false;
+                                }
+                            });
+
+                            function showError(message) {
+                                errorMessage.textContent = message;
+                                errorMessage.classList.remove('hidden');
+                                errorMessage.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="mt-16">
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-8">Create Your Perfect SAT Study Plan</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-bullseye text-indigo-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Personalized Goals</h3>
+                    <p class="text-gray-600">Get a study plan tailored to your current scores and target goals.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-calendar-alt text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Structured Schedule</h3>
+                    <p class="text-gray-600">Follow a clear 4-week plan with daily study topics and practice tests.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Track Progress</h3>
+                    <p class="text-gray-600">Monitor your improvement with scheduled practice tests and reviews.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2023 SAT Schedule Creator. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadContainer = document.getElementById('upload-container');
+            const fileInput = document.getElementById('file-input');
+            const selectedFile = document.getElementById('selected-file');
+            const fileName = document.getElementById('file-name');
+            const fileSize = document.getElementById('file-size');
+            const removeFileBtn = document.getElementById('remove-file');
+            const generateBtn = document.getElementById('generate-btn');
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                uploadContainer.classList.add('drag-over');
+            }
+
+            function unhighlight() {
+                uploadContainer.classList.remove('drag-over');
+            }
+
+            // Handle dropped files
+            uploadContainer.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+
+            // Handle file selection via click
+            uploadContainer.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length) {
+                    handleFiles(this.files);
+                }
+            });
+
+            function handleFiles(files) {
+                const file = files[0];
+                
+                // Check file type
+                const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+                if (!validTypes.includes(file.type)) {
+                    showError('Please upload a valid file type (JPG, PNG, or PDF)');
+                    return;
+                }
+                
+                // Check file size (5MB max)
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                if (file.size > maxSize) {
+                    showError('File size exceeds 5MB limit');
+                    return;
+                }
+                
+                // Display file info
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                selectedFile.classList.remove('hidden');
+                generateBtn.disabled = false;
+                hideError();
+            }
+
+            // Remove file
+            removeFileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                resetFileInput();
+            });
+
+            function resetFileInput() {
+                fileInput.value = '';
+                selectedFile.classList.add('hidden');
+                generateBtn.disabled = true;
+                hideError();
+            }
+
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // Show error message
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.classList.remove('hidden');
+                resetFileInput();
+            }
+
+            // Hide error message
+            function hideError() {
+                errorMessage.classList.add('hidden');
+            }
+
+            // Handle form submission
+            generateBtn.addEventListener('click', async function() {
+                if (!fileInput.files.length) return;
+
+                const file = fileInput.files[0];
+                const formData = new FormData();
+                formData.append('file', file);
+
+                // Show loading state
+                loading.classList.remove('hidden');
+                generateBtn.disabled = true;
+                hideError();
+
+                try {
+                    const response = await fetch('/api/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Failed to process your file');
+                    }
+
+                    // Redirect to schedule page
+                    if (data.schedule_id) {
+                        window.location.href = `/schedule/${data.schedule_id}`;
+                    }
+                } catch (error) {
+                    showError(error.message || 'An error occurred. Please try again.');
+                } finally {
+                    loading.classList.add('hidden');
+                    generateBtn.disabled = false;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
