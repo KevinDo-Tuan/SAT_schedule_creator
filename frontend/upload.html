@@ -80,9 +80,9 @@
                 <button id="generate-btn" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg btn-primary disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                     Generate your Study Plan
                 </button>
-                <button onclick = "answer.html" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg btn-primary disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                    next page (Remember to click "Generate your study plan first")
-                </button>
+                <a id="next-page-btn" href="answer.html" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg text-center hidden">
+                    View Your Study Plan
+                </a>
 
                 <div id="loading" class="hidden mt-6 text-center">
                     <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-indigo-500 border-t-transparent mb-3"></div>
@@ -404,9 +404,11 @@
                         throw new Error(data.error || 'Failed to process your file');
                     }
 
-                    // Redirect to schedule page
-                    if (data.schedule_id) {
-                        window.location.href = `/schedule/${data.schedule_id}`;
+                    // Show the View Your Study Plan button
+                    const nextPageBtn = document.getElementById('next-page-btn');
+                    if (nextPageBtn) {
+                        nextPageBtn.classList.remove('hidden');
+                        nextPageBtn.scrollIntoView({ behavior: 'smooth' });
                     }
                 } catch (error) {
                     showError(error.message || 'An error occurred. Please try again.');

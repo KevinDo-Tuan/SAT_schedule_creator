@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAT Score Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4bb543;
+            --warning-color: #f9c74f;
+            --danger-color: #ef476f;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .file-info i {
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f4ff;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 0;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            text-align: center;
+            padding: 2rem;
+            background-color: #fdecea;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SAT Score Analysis</h1>
+            <p class="subtitle">Your latest test results and performance metrics</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Test Results</h2>
+                    <div class="file-info" id="fileInfo">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Loading latest results...</span>
+                    </div>
+                </div>
+                
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing your test results...</p>
+                </div>
+                
+                <div id="errorContainer" class="error-message" style="display: none;">
+                    <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <h3>Error Loading Results</h3>
+                    <p id="errorMessage">An error occurred while loading your test results.</p>
+                    <button onclick="loadScoreTable()" class="btn" style="margin-top: 1rem;">
+                        <i class="fas fa-sync-alt"></i> Try Again
+                    </button>
+                </div>
+                
+                <div id="tableContainer" style="display: none;">
+                    <div class="table-container">
+                        <div id="scoreTable"></div>
+                    </div>
+                    
+                    <div class="actions">
+                        <a href="/" class="btn btn-outline">
+                            <i class="fas fa-home"></i> Back to Home
+                        </a>
+                        <button onclick="downloadPDF()" class="btn">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 SAT Schedule Creator. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Load the score table when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadScoreTable();
+        });
+
+        // Function to load the score table
+        async function loadScoreTable() {
+            const loadingElement = document.getElementById('loading');
+            const tableContainer = document.getElementById('tableContainer');
+            const errorContainer = document.getElementById('errorContainer');
+            const fileInfoElement = document.getElementById('fileInfo');
+            const scoreTableElement = document.getElementById('scoreTable');
+            
+            // Show loading, hide other elements
+            loadingElement.style.display = 'flex';
+            tableContainer.style.display = 'none';
+            errorContainer.style.display = 'none';
+            
+            try {
+                // Fetch the latest score table from the server
+                const response = await fetch('/api/latest_score_table');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update file info
+                    fileInfoElement.innerHTML = `
+                        <i class="fas fa-file-alt"></i>
+                        <span>${data.filename} • Last modified: ${data.last_modified}</span>
+                    `;
+                    
+                    // Insert the HTML table
+                    scoreTableElement.innerHTML = data.html_table;
+                    
+                    // Apply additional styling to the table if needed
+                    const tables = scoreTableElement.getElementsByTagName('table');
+                    if (tables.length > 0) {
+                        const table = tables[0];
+                        table.style.width = '100%';
+                        table.style.borderCollapse = 'collapse';
+                        
+                        // Add responsive wrapper if not already present
+                        if (!table.parentElement.classList.contains('table-container')) {
+                            const wrapper = document.createElement('div');
+                            wrapper.className = 'table-container';
+                            table.parentNode.insertBefore(wrapper, table);
+                            wrapper.appendChild(table);
+                        }
+                    }
+                    
+                    // Show the table
+                    tableContainer.style.display = 'block';
+                } else {
+                    throw new Error(data.error || 'Failed to load score table');
+                }
+            } catch (error) {
+                console.error('Error loading score table:', error);
+                document.getElementById('errorMessage').textContent = error.message || 'An unknown error occurred';
+                errorContainer.style.display = 'block';
+            } finally {
+                loadingElement.style.display = 'none';
+            }
+        }
+        
+        // Function to download the PDF
+        function downloadPDF() {
+            // In a real implementation, this would download the original PDF
+            alert('PDF download functionality will be implemented here.');
+            // window.open('/api/download_latest_pdf', '_blank');
+        }
+        
+        // Refresh the data every 30 seconds
+        setInterval(loadScoreTable, 30000);
+    </script>
+</body>
+</html>

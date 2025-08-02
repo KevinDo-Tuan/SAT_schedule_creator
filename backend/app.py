@@ -17,7 +17,7 @@ from functools import wraps
 import pandas as pd
 
 # Import template filters
-from filters import register_template_filters
+from .filters.template_filters import register_template_filters
 
 # Load environment variables from .env file
 load_dotenv()
@@ -251,7 +251,7 @@ def index():
 
 @app.route('/api/upload', methods=['POST'])
 def handle_upload():
-    """Handle file upload and start schedule generation"""
+    
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
     
@@ -260,7 +260,7 @@ def handle_upload():
         return jsonify({'error': 'No selected file'}), 400
     
     if not allowed_file(file.filename):
-        return jsonify({'error': 'File type not allowed. Please upload a PNG, JPG, or PDF file.'}), 400
+        return jsonify({'error': 'File type not allowed. Please upload only a PNG, JPG, or PDF file.'}), 400
     
     try:
         # Generate a unique ID for this request
@@ -481,6 +481,47 @@ def upload_file():
             }), 500
     
     return jsonify({'error': 'File type not allowed'}), 400
+
+@app.route('/api/latest_score_table')
+def get_latest_score_table():
+    """Get the latest score table from recorded_scores directory"""
+    try:
+        # Get the most recent PDF file
+        latest_pdf = get_latest_pdf()
+        if not latest_pdf:
+            return jsonify({'error': 'No score files found'}), 404
+            
+        # Extract text from the PDF
+        text = process_image_to_text(latest_pdf)
+        
+        # Use Gemini to convert text to table format
+        prompt = """Convert the following text into a clean, well-formatted HTML table. 
+        If the text contains score data, organize it with appropriate headers. 
+        Make sure the table is responsive and well-structured.
+        \n\n""" + text
+        
+        response = model.generate_content(prompt)
+        html_table = response.text
+        
+        # Clean up the response to ensure it's valid HTML
+        html_table = html_table.replace('```html', '').replace('```', '').strip()
+        
+        return jsonify({
+            'success': True,
+            'html_table': html_table,
+            'filename': os.path.basename(latest_pdf),
+            'last_modified': time.ctime(os.path.getmtime(latest_pdf))
+        })
+    except Exception as e:
+        return jsonify({
+            'error': str(e),
+            'success': False
+        }), 500
+
+@app.route('/answer')
+def answer():
+    """Serve the answer page"""
+    return send_from_directory('../frontend', 'answer.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
