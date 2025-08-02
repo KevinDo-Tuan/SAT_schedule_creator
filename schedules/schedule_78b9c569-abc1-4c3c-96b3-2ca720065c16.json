@@ -1,0 +1,226 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": null,
+      "Writing": null,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "July 31, 2025",
+    "study_hours_per_week": 10
+  },
+  "score_analysis": {
+    "SAT": 1290,
+    "Math": 730,
+    "Reading": 560,
+    "Writing": null,
+    "Subscores": {
+      "Math": {
+        "Algebra": null,
+        "Advanced Math": null,
+        "Problem Solving": null,
+        "Data Analysis": null
+      },
+      "Reading": {
+        "Command of Evidence": null,
+        "Words in Context": null
+      },
+      "Writing": {
+        "Expression of Ideas": null,
+        "Standard English Conventions": null
+      }
+    },
+    "Percentiles": {
+      "Total": null,
+      "Math": null,
+      "Reading": null,
+      "Writing": null
+    }
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading",
+        "Writing",
+        "Math review"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Reading comprehension strategies (main ideas, details)",
+          "Khan Academy Reading Practice: https://www.khanacademy.org/test-prep/sat/reading-writing"
+        ],
+        "tuesday": [
+          "Writing grammar and punctuation review",
+          "College Board Writing practice: https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests"
+        ],
+        "wednesday": [
+          "Math basic algebra concepts review",
+          "Khan Academy Algebra practice: https://www.khanacademy.org/math/algebra"
+        ],
+        "thursday": [
+          "Reading practice with evidence-based questions",
+          "Khan Academy Command of Evidence videos and exercises"
+        ],
+        "friday": [
+          "Writing expression of ideas practice",
+          "Practice correcting sentence structure and clarity"
+        ],
+        "saturday": [
+          "Full length practice test #1 under timed conditions",
+          "Use College Board official practice test: https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests"
+        ],
+        "sunday": [
+          "Rest and light review of errors from practice test",
+          "Analyze mistakes and understand explanations"
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Reading",
+        "Writing",
+        "Math problem solving"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Words in context & vocabulary in reading",
+          "Khan Academy vocabulary practice: https://www.khanacademy.org/test-prep/sat/reading-writing/words-in-context"
+        ],
+        "tuesday": [
+          "Standard English conventions practice in writing",
+          "College Board Writing section practice"
+        ],
+        "wednesday": [
+          "Math advanced topics: functions and geometry",
+          "Khan Academy Geometry and functions practice"
+        ],
+        "thursday": [
+          "Mixed reading and writing practice sets",
+          "Focus on pacing and time management"
+        ],
+        "friday": [
+          "Math problem solving and data analysis",
+          "Practice multi-step word problems"
+        ],
+        "saturday": [
+          "Full length practice test #2 under timed conditions",
+          "Review missed questions post-test"
+        ],
+        "sunday": [
+          "Rest and review weak areas",
+          "Light exercises in trouble topics"
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Math advanced problem solving",
+        "Reading comprehension",
+        "Writing clarity"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Math advanced algebra and functions",
+          "Focus on SAT-specific problem types"
+        ],
+        "tuesday": [
+          "Reading passages: analysis and inference",
+          "Practice with tougher passages"
+        ],
+        "wednesday": [
+          "Writing: expression of ideas and improving paragraphs",
+          "Practice revising sentences for clarity"
+        ],
+        "thursday": [
+          "Math mixed problem solving and timed drills",
+          "Focus on accuracy and pacing"
+        ],
+        "friday": [
+          "Reading and Writing mixed sections timed practice",
+          "Help build stamina"
+        ],
+        "saturday": [
+          "Full length practice test #3",
+          "Analyze time management and errors"
+        ],
+        "sunday": [
+          "Rest and light review of exam mistakes"
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Final review of weak areas",
+        "Timed practice",
+        "Test day strategies"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review all math mistakes and re-practice concepts",
+          "Timed math section practice"
+        ],
+        "tuesday": [
+          "Review reading and writing weak points",
+          "Practice pacing and elimination strategies"
+        ],
+        "wednesday": [
+          "Full timed reading and writing practice",
+          "Use College Board official daily practice online"
+        ],
+        "thursday": [
+          "One last full length timed practice test",
+          "Review all sections carefully"
+        ],
+        "friday": [
+          "Relaxation techniques and light review",
+          "Positive mindset and test day prep"
+        ],
+        "saturday": [
+          "Rest day"
+        ],
+        "sunday": [
+          "Rest day, prepare materials for test day"
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    "Week 1 - Saturday: Full length practice test #1",
+    "Week 2 - Saturday: Full length practice test #2",
+    "Week 3 - Saturday: Full length practice test #3",
+    "Week 4 - Thursday: Final full length practice test"
+  ],
+  "recommended_resources": [
+    {
+      "name": "Khan Academy SAT Practice",
+      "link": "https://www.khanacademy.org/test-prep/sat",
+      "description": "Official free SAT practice with personalized study plans and practice problems."
+    },
+    {
+      "name": "College Board Official SAT Practice Tests",
+      "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+      "description": "Free official full-length SAT practice tests and scoring guides."
+    },
+    {
+      "name": "Khan Academy Math - Algebra",
+      "link": "https://www.khanacademy.org/math/algebra",
+      "description": "Comprehensive algebra tutorials and practice problems."
+    },
+    {
+      "name": "Khan Academy Reading & Writing Videos",
+      "link": "https://www.khanacademy.org/test-prep/sat/reading-writing",
+      "description": "Video tutorials for reading comprehension and writing strategies."
+    },
+    {
+      "name": "Time Management Tips for SAT",
+      "link": "https://blog.prepscholar.com/sat-timing-tips-how-to-manage-your-time-on-the-sat",
+      "description": "Strategies for pacing and managing time efficiently across SAT sections."
+    }
+  ]
+}

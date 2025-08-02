@@ -1,0 +1,158 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": null,
+      "Writing": null,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "2025-07-31",
+    "study_hours_per_week": null
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading and Writing fundamentals",
+        "Math advanced concepts"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review Math Module 1 concepts",
+          "Practice algebra and geometry problems"
+        ],
+        "tuesday": [
+          "Reading comprehension practice",
+          "Grammar and usage exercises"
+        ],
+        "wednesday": [
+          "Math Module 2 (Hard) practice problems",
+          "Timed math drills"
+        ],
+        "thursday": [
+          "Reading passages with vocabulary focus",
+          "Writing strategy review"
+        ],
+        "friday": [
+          "Mixed Reading and Writing practice",
+          "Analyze mistakes"
+        ],
+        "saturday": [
+          "Full-length Math section practice",
+          "Review errors and strategies"
+        ],
+        "sunday": [
+          "Rest or light review of vocabulary and formulas"
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Advanced Reading comprehension",
+        "Math problem-solving strategies"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Practice critical reading questions",
+          "Focus on identifying main ideas"
+        ],
+        "tuesday": [
+          "Math word problems and data analysis",
+          "Review math formulas"
+        ],
+        "wednesday": [
+          "Writing section strategies and practice",
+          "Sentence correction drills"
+        ],
+        "thursday": [
+          "Timed Reading sections",
+          "Vocabulary reinforcement"
+        ],
+        "friday": [
+          "Mixed math practice",
+          "Focus on weakest math topics"
+        ],
+        "saturday": [
+          "Full-length Reading and Writing section practice",
+          "Analyze mistakes"
+        ],
+        "sunday": [
+          "Rest or review notes"
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Full test simulation",
+        "Targeted weak area improvement"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Take a full practice test (timed)"
+        ],
+        "tuesday": [
+          "Review practice test errors in Math"
+        ],
+        "wednesday": [
+          "Review practice test errors in Reading and Writing"
+        ],
+        "thursday": [
+          "Focused practice on identified weak math topics"
+        ],
+        "friday": [
+          "Focused practice on identified weak reading and writing skills"
+        ],
+        "saturday": [
+          "Timed drills on all sections"
+        ],
+        "sunday": [
+          "Rest and light review"
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Final review and test readiness"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review key math concepts and formulas"
+        ],
+        "tuesday": [
+          "Review grammar rules and common writing errors"
+        ],
+        "wednesday": [
+          "Practice reading passages and timing"
+        ],
+        "thursday": [
+          "Light practice test or section tests"
+        ],
+        "friday": [
+          "Relaxation and stress management techniques",
+          "Review test day strategies"
+        ],
+        "saturday": [
+          "Rest"
+        ],
+        "sunday": [
+          "Rest and early night sleep for test day"
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    "Week 3 Monday: Full timed practice test"
+  ],
+  "recommended_resources": [
+    "College Board Official SAT Study Guide",
+    "Khan Academy SAT Practice",
+    "The Princeton Review SAT Practice Workbooks",
+    "Daily SAT vocabulary flashcards",
+    "Online SAT math practice platforms"
+  ]
+}

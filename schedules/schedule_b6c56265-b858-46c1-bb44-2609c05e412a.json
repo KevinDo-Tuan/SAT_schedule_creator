@@ -1,0 +1,163 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": null,
+      "Writing": null,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "July 31, 2025",
+    "study_hours_per_week": null
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading",
+        "Writing"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review basic Reading comprehension strategies",
+          "Practice Reading passages"
+        ],
+        "tuesday": [
+          "Focus on grammar and usage rules for Writing",
+          "Practice Writing multiple-choice questions"
+        ],
+        "wednesday": [
+          "Mixed Reading and Writing practice sets",
+          "Review errors and explanations"
+        ],
+        "thursday": [
+          "Reading vocabulary building exercises",
+          "Practice Writing sentence correction"
+        ],
+        "friday": [
+          "Timed Reading section practice",
+          "Timed Writing section practice"
+        ],
+        "saturday": [
+          "Full Reading and Writing diagnostic test",
+          "Analyze performance and identify weak areas"
+        ],
+        "sunday": [
+          "Rest or light review of notes and vocabulary"
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Math"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review algebra fundamentals",
+          "Practice linear equations and inequalities"
+        ],
+        "tuesday": [
+          "Focus on geometry concepts",
+          "Practice geometry problems"
+        ],
+        "wednesday": [
+          "Advanced algebra and functions",
+          "Practice related Math problems"
+        ],
+        "thursday": [
+          "Data analysis and problem solving",
+          "Practice data set and graph questions"
+        ],
+        "friday": [
+          "Timed Math section practice",
+          "Review mistakes"
+        ],
+        "saturday": [
+          "Full Math practice test",
+          "Score and analyze results"
+        ],
+        "sunday": [
+          "Rest or light math review"
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Reading",
+        "Writing",
+        "Math"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Target weak Reading areas identified in tests",
+          "Practice difficult passages"
+        ],
+        "tuesday": [
+          "Target weak Writing areas",
+          "Practice sentence improvement and paragraph analysis"
+        ],
+        "wednesday": [
+          "Mixed Reading, Writing, and Math practice sets"
+        ],
+        "thursday": [
+          "Timed practice sections for all areas"
+        ],
+        "friday": [
+          "Review error logs and difficult concepts"
+        ],
+        "saturday": [
+          "Full-length SAT practice test #2",
+          "Detailed review of results"
+        ],
+        "sunday": [
+          "Rest or light review"
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Full SAT review and test-taking strategies"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review key Math formulas and strategies"
+        ],
+        "tuesday": [
+          "Review Reading strategies and vocabulary"
+        ],
+        "wednesday": [
+          "Review Writing grammar rules and question types"
+        ],
+        "thursday": [
+          "Take a timed full-length SAT practice test #3"
+        ],
+        "friday": [
+          "Analyze test results and review weak points"
+        ],
+        "saturday": [
+          "Practice stress management and time management techniques"
+        ],
+        "sunday": [
+          "Rest and prepare mentally for test day"
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    "Week 1 Saturday: Full Reading and Writing diagnostic test",
+    "Week 2 Saturday: Full Math practice test",
+    "Week 3 Saturday: Full-length SAT practice test #2",
+    "Week 4 Thursday: Full-length SAT practice test #3"
+  ],
+  "recommended_resources": [
+    "College Board Official SAT Study Guide",
+    "Khan Academy SAT practice",
+    "TestInnovators digital SAT practice tests",
+    "UWorld SAT prep",
+    "PWN the SAT Math Guide"
+  ]
+}

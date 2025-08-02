@@ -1,0 +1,149 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": null,
+      "Writing": null,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "July 31, 2025",
+    "study_hours_per_week": null
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading and Writing foundations",
+        "Math review"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review basic grammar rules",
+          "Practice reading comprehension passages"
+        ],
+        "tuesday": [
+          "Practice math fundamentals: algebra and arithmetic"
+        ],
+        "wednesday": [
+          "Continue grammar practice",
+          "Timed reading passage"
+        ],
+        "thursday": [
+          "Math problem solving: functions and linear equations"
+        ],
+        "friday": [
+          "Writing practice: sentence structure and punctuation"
+        ],
+        "saturday": [
+          "Full section Reading and Writing timed practice"
+        ],
+        "sunday": [
+          "Review errors from the week's practice"
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Advanced Reading and Writing",
+        "Math - Module 1 mastery"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Practice complex reading passages with inference questions"
+        ],
+        "tuesday": [
+          "Math focus: geometry basics and problem-solving"
+        ],
+        "wednesday": [
+          "Editing and revising practice on writing section"
+        ],
+        "thursday": [
+          "Algebraic concepts: inequalities and quadratic equations"
+        ],
+        "friday": [
+          "Vocabulary in context and sentence completions"
+        ],
+        "saturday": [
+          "Practice test: focus on Reading and Writing sections"
+        ],
+        "sunday": [
+          "Review test mistakes and identify weak areas"
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Reading and Writing - Module 2 (Hard)",
+        "Math - Module 2 (Hard)"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Hard level reading comprehension practice"
+        ],
+        "tuesday": [
+          "Advanced math problems: functions and data analysis"
+        ],
+        "wednesday": [
+          "Writing: practice with complex sentence structures and argument analysis"
+        ],
+        "thursday": [
+          "Math practice: nonlinear equations and coordinate geometry"
+        ],
+        "friday": [
+          "Timed drills: Reading and Writing sections"
+        ],
+        "saturday": [
+          "Full length practice test"
+        ],
+        "sunday": [
+          "Detailed review of practice test errors"
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Test simulation and targeted review"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Targeted practice on weakest Reading and Writing question types"
+        ],
+        "tuesday": [
+          "Targeted practice on weakest Math topics"
+        ],
+        "wednesday": [
+          "Timed full Reading and Writing section"
+        ],
+        "thursday": [
+          "Timed Math section"
+        ],
+        "friday": [
+          "Mixed practice and review strategies"
+        ],
+        "saturday": [
+          "Full SAT practice test under timed conditions"
+        ],
+        "sunday": [
+          "Final review and relaxation techniques"
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    "Week 2 Saturday - Reading and Writing practice test",
+    "Week 3 Saturday - Full length practice test",
+    "Week 4 Saturday - Full SAT practice test"
+  ],
+  "recommended_resources": [
+    "Khan Academy Official SAT Practice",
+    "The College Board SAT Official Guide",
+    "UWorld SAT Question Bank",
+    "PWN the SAT Math Guide",
+    "Daily reading from high-quality editorials for comprehension practice"
+  ]
+}

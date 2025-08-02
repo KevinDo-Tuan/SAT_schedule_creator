@@ -1,0 +1,163 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": 560,
+      "Writing": 560,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "July 31, 2025",
+    "study_hours_per_week": null
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading",
+        "Writing"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Reading comprehension strategies",
+          "Vocabulary building"
+        ],
+        "tuesday": [
+          "Grammar rules and usage",
+          "Practice passage reading"
+        ],
+        "wednesday": [
+          "Improving sentence structure understanding",
+          "Practice writing section questions"
+        ],
+        "thursday": [
+          "Timed reading practice",
+          "Review writing section errors"
+        ],
+        "friday": [
+          "Reading: inference and main ideas",
+          "Writing: punctuation and syntax"
+        ],
+        "saturday": [
+          "Full Reading section practice",
+          "Analyze mistakes"
+        ],
+        "sunday": [
+          "Rest or light review of Reading and Writing concepts"
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Math"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Algebra basics and expressions",
+          "Practice algebra problems"
+        ],
+        "tuesday": [
+          "Advanced algebra and functions",
+          "Practice advanced problems"
+        ],
+        "wednesday": [
+          "Geometry concepts review",
+          "Coordinate geometry practice"
+        ],
+        "thursday": [
+          "Word problems and data analysis",
+          "Practice problem solving"
+        ],
+        "friday": [
+          "Trigonometry basics and applications",
+          "Practice related problems"
+        ],
+        "saturday": [
+          "Full Math section practice",
+          "Review and analyze mistakes"
+        ],
+        "sunday": [
+          "Rest or light review of Math concepts"
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Mixed - Math, Reading, Writing"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Reading comprehension timed practice",
+          "Math problem-solving review"
+        ],
+        "tuesday": [
+          "Writing: grammar and style review",
+          "Math: geometry and algebra mixed practice"
+        ],
+        "wednesday": [
+          "Full Writing section practice",
+          "Reading: passage analysis"
+        ],
+        "thursday": [
+          "Math: word problems and data analysis",
+          "Review errors from practice"
+        ],
+        "friday": [
+          "Timed Reading and Writing combined practice"
+        ],
+        "saturday": [
+          "Full practice test"
+        ],
+        "sunday": [
+          "Review practice test results, focus on weaknesses"
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Test readiness and review"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review key concepts in Math",
+          "Review common grammar errors"
+        ],
+        "tuesday": [
+          "Timed Reading and Writing drills",
+          "Light Math practice"
+        ],
+        "wednesday": [
+          "Practice test focusing on weak areas"
+        ],
+        "thursday": [
+          "Error analysis and review",
+          "Relaxation and mental prep"
+        ],
+        "friday": [
+          "Light practice and confidence building"
+        ],
+        "saturday": [
+          "Rest day"
+        ],
+        "sunday": [
+          "Final review and early rest before test day"
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    "Week 3 Saturday - Full practice test",
+    "Week 4 Wednesday - Focused practice test on weak areas"
+  ],
+  "recommended_resources": [
+    "Official SAT Study Guide by College Board",
+    "Khan Academy SAT Practice",
+    "Barron's SAT Prep",
+    "Powerscore SAT Bible Series",
+    "SAT practice tests available on College Board website"
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": null,
+      "Writing": null,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "2025-07-31",
+    "study_hours_per_week": null
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading and Writing Fundamentals",
+        "Algebra and Heart of Algebra in Math"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Complete Khan Academy Reading practice sets focused on Command of Evidence",
+          "Watch video tutorials on active reading strategies — Khan Academy Reading section"
+        ],
+        "tuesday": [
+          "Practice Algebra problems from Khan Academy Math: Heart of Algebra",
+          "Review error analysis from recent practice questions"
+        ],
+        "wednesday": [
+          "Complete Writing section exercises focusing on Expression of Ideas from Khan Academy Writing",
+          "Timed passages for Reading to build stamina"
+        ],
+        "thursday": [
+          "Practice problem solving and data analysis questions in Math",
+          "Watch videos on problem solving strategies and data analysis techniques"
+        ],
+        "friday": [
+          "Mixed Reading and Writing practice test subset (timed 30 minutes)",
+          "Review incorrect answers in detail"
+        ],
+        "saturday": [
+          "Full Math practice test (timed)",
+          "Focus on pacing and time management strategies"
+        ],
+        "sunday": [
+          "Rest and light review: Vocabulary and grammar flashcards",
+          "Review notes from the week"
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Advanced Math Topics",
+        "Command of Evidence and Contextual Vocabulary"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Practice advanced math problems: Quadratics and functions on Khan Academy",
+          "Watch videos from College Board on Math section strategies"
+        ],
+        "tuesday": [
+          "Reading practice on Words in Context and inference skills",
+          "Write summaries of passages to build comprehension"
+        ],
+        "wednesday": [
+          "Writing exercises focused on Standard English Conventions",
+          "Timed practice on Writing multiple-choice questions"
+        ],
+        "thursday": [
+          "Timed mixed Math practice focusing on weak problem types from the previous week",
+          "Error analysis and note correction"
+        ],
+        "friday": [
+          "Full Reading and Writing practice test segment",
+          "Review all mistakes and develop targeted plans"
+        ],
+        "saturday": [
+          "Full timed SAT practice test from College Board",
+          "Track time spent on each section"
+        ],
+        "sunday": [
+          "Active rest: light reading and vocabulary review",
+          "Meditation or relaxation for focus improvement"
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Integration of Concepts",
+        "Test Simulation and Strategy Refinement"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Mixed practice of reading, writing, and math from Khan Academy",
+          "Focus on timing and pacing"
+        ],
+        "tuesday": [
+          "Detailed review of previous full practice test errors",
+          "Practice test-taking strategies: process of elimination and skipping strategies"
+        ],
+        "wednesday": [
+          "Targeted practice for weak math areas: advanced algebra and problem solving",
+          "Watch video on advanced math question solving on Khan Academy"
+        ],
+        "thursday": [
+          "Timed Reading and Writing sections",
+          "Practice annotation and note-taking for reading passages"
+        ],
+        "friday": [
+          "Practice full Writing section",
+          "Focus on grammar and usage error detection"
+        ],
+        "saturday": [
+          "Full SAT practice test under timed conditions",
+          "Analyze test timing and accuracy"
+        ],
+        "sunday": [
+          "Rest day with light review: vocabulary flashcards and math formulas"
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Final Review",
+        "Stress Management and Test Day Preparation"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review high-yield math concepts",
+          "Practice problems from College Board SAT Practice Tests"
+        ],
+        "tuesday": [
+          "Review high-yield reading and writing concepts",
+          "Watch stress management and test-taking tips videos"
+        ],
+        "wednesday": [
+          "Take a complete timed SAT practice test",
+          "Focus on pacing and endurance"
+        ],
+        "thursday": [
+          "Review practice test results thoroughly",
+          "Light practice on weakest identified areas"
+        ],
+        "friday": [
+          "Review all notes, flashcards, and test-taking strategies",
+          "Prepare test materials and logistics"
+        ],
+        "saturday": [
+          "Rest and mental preparation day",
+          "Engage in relaxation techniques"
+        ],
+        "sunday": [
+          "Final light review if desired",
+          "Early rest for test day"
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    "Saturday Week 1: Full Math practice test",
+    "Friday Week 2: Full Reading and Writing practice test segment",
+    "Saturday Week 2: Full timed SAT practice test",
+    "Saturday Week 3: Full SAT practice test",
+    "Wednesday Week 4: Full timed SAT practice test"
+  ],
+  "recommended_resources": [
+    {
+      "resource_type": "Online Practice",
+      "name": "Khan Academy official SAT Practice",
+      "link": "https://www.khanacademy.org/test-prep/sat"
+    },
+    {
+      "resource_type": "Official Practice Tests",
+      "name": "College Board Official SAT Practice Tests",
+      "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests"
+    },
+    {
+      "resource_type": "Video Tutorials",
+      "name": "Khan Academy SAT Math Videos",
+      "link": "https://www.khanacademy.org/math/sat-math"
+    },
+    {
+      "resource_type": "Video Tutorials",
+      "name": "Khan Academy Reading and Writing Tutorials",
+      "link": "https://www.khanacademy.org/test-prep/sat/reading-writing"
+    },
+    {
+      "resource_type": "Printable Worksheets",
+      "name": "College Board SAT Practice Question Sets",
+      "link": "https://collegereadiness.collegeboard.org/sat/practice/question-sets"
+    },
+    {
+      "resource_type": "Time Management Strategy",
+      "name": "SAT Time Management Tips by Khan Academy",
+      "link": "https://www.khanacademy.org/test-prep/sat/taking-the-test/pacing"
+    }
+  ]
+}

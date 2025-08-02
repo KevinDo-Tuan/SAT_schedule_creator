@@ -263,46 +263,48 @@
 <body>
     <div class="container">
         <header>
-            <h1>SAT Score Analysis</h1>
+            <h1>Your SAT Study Schedule</h1>
             <p class="subtitle">Your latest test results and performance metrics</p>
         </header>
 
         <main>
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Test Results</h2>
-                    <div class="file-info" id="fileInfo">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Loading latest results...</span>
+                    <h2 class="card-title">Your Study Schedule</h2>
+                    <div class="file-info">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="schedule-date">Generated on: Loading...</span>
                     </div>
                 </div>
-                
                 <div id="loading" class="loading">
                     <div class="spinner"></div>
-                    <p>Analyzing your test results...</p>
+                    <p>Loading your study schedule...</p>
                 </div>
-                
-                <div id="errorContainer" class="error-message" style="display: none;">
-                    <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                    <h3>Error Loading Results</h3>
-                    <p id="errorMessage">An error occurred while loading your test results.</p>
-                    <button onclick="loadScoreTable()" class="btn" style="margin-top: 1rem;">
-                        <i class="fas fa-sync-alt"></i> Try Again
-                    </button>
+                <div id="error-message" class="error-message" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="error-text"></span>
                 </div>
-                
-                <div id="tableContainer" style="display: none;">
-                    <div class="table-container">
-                        <div id="scoreTable"></div>
+                <div id="schedule-container" style="padding: 20px;">
+                    <div id="schedule-summary" style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Study Plan Summary</h3>
+                        <div id="summary-content" style="background: #f8f9ff; padding: 1rem; border-radius: var(--border-radius);"></div>
                     </div>
-                    
-                    <div class="actions">
-                        <a href="/" class="btn btn-outline">
-                            <i class="fas fa-home"></i> Back to Home
-                        </a>
-                        <button onclick="downloadPDF()" class="btn">
-                            <i class="fas fa-download"></i> Download PDF
-                        </button>
+                    <div id="schedule-table" class="table-container" style="display: none; margin-top: 2rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Weekly Schedule</h3>
+                        <table id="schedule">
+                            <thead>
+                                <tr>
+                                    <th>Week</th>
+                                    <th>Focus Area</th>
+                                    <th>Topics</th>
+                                    <th>Practice Tests</th>
+                                    <th>Study Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody id="schedule-body">
+                                <!-- Schedule rows will be inserted here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -314,78 +316,94 @@
     </div>
 
     <script>
-        // Load the score table when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadScoreTable();
-        });
+        // Get DOM elements
+        const loadingElement = document.getElementById('loading');
+        const errorElement = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const scheduleDateElement = document.getElementById('schedule-date');
+        const scheduleContainer = document.getElementById('schedule-container');
+        const scheduleTable = document.getElementById('schedule-table');
+        const scheduleBody = document.getElementById('schedule-body');
+        const summaryContent = document.getElementById('summary-content');
 
-        // Function to load the score table
-        async function loadScoreTable() {
-            const loadingElement = document.getElementById('loading');
-            const tableContainer = document.getElementById('tableContainer');
-            const errorContainer = document.getElementById('errorContainer');
-            const fileInfoElement = document.getElementById('fileInfo');
-            const scoreTableElement = document.getElementById('scoreTable');
-            
-            // Show loading, hide other elements
+        // Function to show error message
+        function showError(message) {
+            errorText.textContent = message;
+            errorElement.style.display = 'block';
+            loadingElement.style.display = 'none';
+            scheduleContainer.style.display = 'none';
+        }
+
+        // Function to format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Function to load the schedule
+        async function loadSchedule() {
+            // Show loading state
             loadingElement.style.display = 'flex';
-            tableContainer.style.display = 'none';
-            errorContainer.style.display = 'none';
-            
+            errorElement.style.display = 'none';
+            scheduleContainer.style.display = 'block';
+
+            // Get the schedule ID from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const scheduleId = urlParams.get('schedule_id');
+
+            if (!scheduleId) {
+                showError('No schedule ID provided');
+                return;
+            }
+
             try {
-                // Fetch the latest score table from the server
-                const response = await fetch('/api/latest_score_table');
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Update file info
-                    fileInfoElement.innerHTML = `
-                        <i class="fas fa-file-alt"></i>
-                        <span>${data.filename} • Last modified: ${data.last_modified}</span>
-                    `;
-                    
-                    // Insert the HTML table
-                    scoreTableElement.innerHTML = data.html_table;
-                    
-                    // Apply additional styling to the table if needed
-                    const tables = scoreTableElement.getElementsByTagName('table');
-                    if (tables.length > 0) {
-                        const table = tables[0];
-                        table.style.width = '100%';
-                        table.style.borderCollapse = 'collapse';
-                        
-                        // Add responsive wrapper if not already present
-                        if (!table.parentElement.classList.contains('table-container')) {
-                            const wrapper = document.createElement('div');
-                            wrapper.className = 'table-container';
-                            table.parentNode.insertBefore(wrapper, table);
-                            wrapper.appendChild(table);
-                        }
-                    }
-                    
-                    // Show the table
-                    tableContainer.style.display = 'block';
-                } else {
-                    throw new Error(data.error || 'Failed to load score table');
+                // Fetch the schedule data from the backend
+                const response = await fetch(`/api/schedule/${scheduleId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load schedule');
                 }
-            } catch (error) {
-                console.error('Error loading score table:', error);
-                document.getElementById('errorMessage').textContent = error.message || 'An unknown error occurred';
-                errorContainer.style.display = 'block';
-            } finally {
+                
+                const scheduleData = await response.json();
+                
+                // Update the UI with the schedule data
+                const currentDate = new Date();
+                scheduleDateElement.textContent = `Generated on: ${formatDate(currentDate)}`;
+                
+                // Display the summary
+                if (scheduleData.summary) {
+                    summaryContent.innerHTML = `<p>${scheduleData.summary.replace(/\n/g, '<br>')}</p>`;
+                }
+                
+                // Display the schedule table
+                if (scheduleData.weeks && scheduleData.weeks.length > 0) {
+                    scheduleBody.innerHTML = ''; // Clear existing rows
+                    
+                    scheduleData.weeks.forEach((week, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>Week ${index + 1}</td>
+                            <td>${week.focus_area || '-'}</td>
+                            <td>${(week.topics || []).join(', ')}</td>
+                            <td>${week.practice_tests || 'None'}</td>
+                            <td>${week.study_hours || 'TBD'}</td>
+                        `;
+                        scheduleBody.appendChild(row);
+                    });
+                    
+                    scheduleTable.style.display = 'block';
+                }
+                
+                // Hide loading state
                 loadingElement.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading schedule:', error);
+                showError('Failed to load schedule. Please try again later.');
             }
         }
-        
-        // Function to download the PDF
-        function downloadPDF() {
-            // In a real implementation, this would download the original PDF
-            alert('PDF download functionality will be implemented here.');
-            // window.open('/api/download_latest_pdf', '_blank');
-        }
-        
-        // Refresh the data every 30 seconds
-        setInterval(loadScoreTable, 30000);
+
+        // Load the schedule when the page loads
+        document.addEventListener('DOMContentLoaded', loadSchedule);
     </script>
 </body>
 </html>

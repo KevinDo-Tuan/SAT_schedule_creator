@@ -1,0 +1,160 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": null,
+      "Writing": null,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "July 31, 2025",
+    "study_hours_per_week": null
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading",
+        "Writing",
+        "Math"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review foundational grammar rules and punctuation",
+          "Practice math algebra problems"
+        ],
+        "tuesday": [
+          "Read and analyze SAT reading passages",
+          "Practice math geometry problems"
+        ],
+        "wednesday": [
+          "Practice writing section passages",
+          "Practice math problem-solving and data analysis"
+        ],
+        "thursday": [
+          "Apply grammar concepts in writing exercises",
+          "Reading comprehension drills"
+        ],
+        "friday": [
+          "Targeted math practice on weak areas (e.g. difficult algebra topics)",
+          "Summarize reading passages"
+        ],
+        "saturday": [
+          "Full-length practice reading and writing sections"
+        ],
+        "sunday": [
+          "Rest or light review of error logs and vocabulary"
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Math",
+        "Reading",
+        "Writing"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Practice advanced math problems involving functions and trigonometry",
+          "Refine grammar and sentence structure"
+        ],
+        "tuesday": [
+          "Timed reading section practice",
+          "Timed math problem sets"
+        ],
+        "wednesday": [
+          "Improve writing section strategy and essay planning (if essay is taken)"
+        ],
+        "thursday": [
+          "Review math mistakes and concepts",
+          "Practice inference questions in reading"
+        ],
+        "friday": [
+          "Writing practice focusing on argument and evidence questions",
+          "Math practice on word problems"
+        ],
+        "saturday": [
+          "Full-length practice test (all sections)"
+        ],
+        "sunday": [
+          "Analyze practice test results, identify weak points"
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Math",
+        "Reading",
+        "Writing"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Targeted math problem sets especially on recent mistakes"
+        ],
+        "tuesday": [
+          "Timed reading and writing practice"
+        ],
+        "wednesday": [
+          "Sentence correction drills and grammar review"
+        ],
+        "thursday": [
+          "Practice complex math concepts and problem-solving"
+        ],
+        "friday": [
+          "Reading comprehension advanced question types"
+        ],
+        "saturday": [
+          "Full-length timed practice test"
+        ],
+        "sunday": [
+          "Review test answers thoroughly, focus on errors"
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Test-taking strategies",
+        "Review",
+        "Light practice"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Review key math formulas and strategies"
+        ],
+        "tuesday": [
+          "Light reading and writing review"
+        ],
+        "wednesday": [
+          "Practice pacing and time management techniques"
+        ],
+        "thursday": [
+          "Quick recap of grammar rules and math concepts"
+        ],
+        "friday": [
+          "Relaxed practice, flashcards, and vocabulary"
+        ],
+        "saturday": [
+          "Rest and mental preparation"
+        ],
+        "sunday": [
+          "Test day readiness routines"
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    "End of Week 2: Full-length practice test",
+    "End of Week 3: Full-length practice test"
+  ],
+  "recommended_resources": [
+    "Khan Academy Official SAT Practice",
+    "The College Board SAT Official Study Guide",
+    "College Panda SAT Math Workbook",
+    "Powerscore SAT Reading Bible",
+    "Grammarly for writing practice"
+  ]
+}

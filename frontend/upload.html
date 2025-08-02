@@ -97,7 +97,7 @@
 
                 <div id="loading" class="hidden mt-6 text-center">
                     <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-indigo-500 border-t-transparent mb-3"></div>
-                    <p class="text-gray-600">Analyzing your scores and creating a personalized study plan...</p>
+                    <p class="text-gray-600">please wait my boi, it will only take a few minute...</p>
                 </div>
 
                 <div id="error-message" class="hidden mt-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
@@ -247,7 +247,7 @@
                             }
 
                             const formData = new FormData();
-                            formData.append('file', currentFile);
+                            formData.append('scoreImage', currentFile);
 
                             try {
                                 // Show loading state
@@ -255,8 +255,8 @@
                                 if (generateBtn) generateBtn.disabled = true;
                                 hideError();
 
-                                console.log('Uploading file to /api/upload...');
-                                const response = await fetch('/api/upload', {
+                                console.log('Uploading file to /upload-score...');
+                                const response = await fetch('/upload-score', {
                                     method: 'POST',
                                     body: formData
                                 });
@@ -273,9 +273,9 @@
                                     throw new Error(data.error);
                                 }
 
-                                // Redirect to waiting page with the request ID
-                                console.log('Redirecting to waiting page with request_id:', data.request_id);
-                                window.location.href = `/waiting?request_id=${data.request_id}`;
+                                // Redirect to the Flask-rendered schedule view
+                                console.log('Redirecting to schedule view with schedule_id:', data.schedule_id);
+                                window.location.href = `/schedule/${data.schedule_id}`;
 
                             } catch (error) {
                                 console.error('Error:', error);

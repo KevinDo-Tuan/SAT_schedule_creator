@@ -1,0 +1,171 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": 560,
+      "Writing": 560,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "2025-07-31",
+    "study_hours_per_week": null
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading",
+        "Writing",
+        "Math"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Reading comprehension strategies practice",
+          "Grammar rules review"
+        ],
+        "tuesday": [
+          "Algebra fundamentals practice",
+          "Sentence structure and punctuation"
+        ],
+        "wednesday": [
+          "Reading passages analysis",
+          "Math problem-solving techniques"
+        ],
+        "thursday": [
+          "Writing skill exercises",
+          "Functions and equations practice"
+        ],
+        "friday": [
+          "Vocabulary building",
+          "Geometry basics review"
+        ],
+        "saturday": [
+          "Full section timed Reading and Writing practice",
+          "Math timed drills"
+        ],
+        "sunday": [
+          "Rest or light review of difficult topics"
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Math",
+        "Reading",
+        "Writing"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Advanced algebra and functions practice",
+          "Reading for detail and inference"
+        ],
+        "tuesday": [
+          "Essay writing practice (if applicable)",
+          "Grammar and usage drills"
+        ],
+        "wednesday": [
+          "Word problems and data analysis practice",
+          "Reading comprehension timed drills"
+        ],
+        "thursday": [
+          "Coordinate geometry and volume problems",
+          "Writing clarity and style review"
+        ],
+        "friday": [
+          "Practice mixed Math problems",
+          "Contextual vocabulary exercises"
+        ],
+        "saturday": [
+          "Take practice test under timed conditions (Sections: Reading, Writing)"
+        ],
+        "sunday": [
+          "Review practice test mistakes, focus on weak areas"
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Math",
+        "Writing",
+        "Reading"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Trigonometry and complex problems practice",
+          "Advanced grammar exercises"
+        ],
+        "tuesday": [
+          "Timed full Math section practice",
+          "Reading critical analysis exercises"
+        ],
+        "wednesday": [
+          "Data interpretation and statistics",
+          "Writing practice: clarity and transitions"
+        ],
+        "thursday": [
+          "SAT vocabulary and idioms review",
+          "Math error analysis and review"
+        ],
+        "friday": [
+          "Timed Reading section practice",
+          "Sentence correction drills"
+        ],
+        "saturday": [
+          "Take full-length timed SAT practice test"
+        ],
+        "sunday": [
+          "Review test results, deep dive on errors"
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Test simulation",
+        "Weakness improvement",
+        "Time management"
+      ],
+      "daily_schedule": {
+        "monday": [
+          "Targeted practice on weakest Math topics",
+          "Timed writing prompts"
+        ],
+        "tuesday": [
+          "Reading timed drills and passage mapping",
+          "Grammar final review"
+        ],
+        "wednesday": [
+          "Take full-length timed SAT practice test"
+        ],
+        "thursday": [
+          "Review test results, remediate weak points"
+        ],
+        "friday": [
+          "Light practice and relaxation techniques",
+          "Test day strategies discussion"
+        ],
+        "saturday": [
+          "Rest and mental preparation"
+        ],
+        "sunday": [
+          "Rest and confidence building"
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    "Week 2 Saturday: Sectional Reading and Writing timed test",
+    "Week 3 Saturday: Full-length timed SAT practice test",
+    "Week 4 Wednesday: Full-length timed SAT practice test"
+  ],
+  "recommended_resources": [
+    "Khan Academy SAT Practice",
+    "The Official SAT Study Guide by College Board",
+    "Daily SAT vocabulary apps like Magoosh",
+    "College Board Official Practice Tests",
+    "Purdue OWL for writing and grammar review"
+  ]
+}

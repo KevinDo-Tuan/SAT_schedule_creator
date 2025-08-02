@@ -1,0 +1,589 @@
+{
+  "student_info": {
+    "current_scores": {
+      "Math": 730,
+      "Reading": null,
+      "Writing": null,
+      "Total": 1290
+    },
+    "target_scores": {
+      "Math": null,
+      "Reading": null,
+      "Writing": null,
+      "Total": null
+    },
+    "test_date": "July 31, 2025",
+    "study_hours_per_week": null
+  },
+  "study_plan": {
+    "week1": {
+      "focus_areas": [
+        "Reading and Writing fundamentals",
+        "Math advanced problem-solving"
+      ],
+      "daily_schedule": {
+        "monday": [
+          {
+            "topic": "Reading: Command of Evidence and Words in Context",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy SAT Reading: Command of Evidence",
+                "link": "https://www.khanacademy.org/test-prep/sat/reading-strategies",
+                "time_estimate": "25 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "College Board Practice Questions: Reading Evidence Questions",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "45 minutes"
+              },
+              {
+                "type": "strategy",
+                "title": "Reading Section Strategies | College Board",
+                "link": "https://collegereadiness.collegeboard.org/sat/inside-the-test/reading",
+                "time_estimate": "20 minutes"
+              }
+            ]
+          }
+        ],
+        "tuesday": [
+          {
+            "topic": "Writing: Expression of Ideas & Standard English Conventions Fundamentals",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy SAT Writing: Grammar and Usage",
+                "link": "https://www.khanacademy.org/test-prep/sat/writing-grammar",
+                "time_estimate": "30 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "College Board Writing Practice Questions",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "40 minutes"
+              },
+              {
+                "type": "strategy",
+                "title": "SAT Writing and Language Test Tips",
+                "link": "https://blog.prepscholar.com/sat-writing-tips-how-to-improve-your-score",
+                "time_estimate": "20 minutes"
+              }
+            ]
+          }
+        ],
+        "wednesday": [
+          {
+            "topic": "Math: Advanced Problem Solving & Data Analysis",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy: SAT Math - Problem Solving & Data Analysis",
+                "link": "https://www.khanacademy.org/test-prep/sat/math/problem-solving-data-analysis",
+                "time_estimate": "35 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "College Board Advanced Math Practice Problems",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "45 minutes"
+              },
+              {
+                "type": "strategy",
+                "title": "How to Approach SAT Math Questions",
+                "link": "https://blog.prepscholar.com/sat-math-tips-tricks-how-to-improve-your-sat-math-score",
+                "time_estimate": "20 minutes"
+              }
+            ]
+          }
+        ],
+        "thursday": [
+          {
+            "topic": "Math: Algebra Fundamentals Review",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy Algebra Basics",
+                "link": "https://www.khanacademy.org/math/algebra",
+                "time_estimate": "40 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Algebra Practice Problems - Khan Academy SAT Math",
+                "link": "https://www.khanacademy.org/test-prep/sat/math/algebra",
+                "time_estimate": "40 minutes"
+              }
+            ]
+          }
+        ],
+        "friday": [
+          {
+            "topic": "Reading & Writing: Review and Practice Passage Analysis",
+            "resources": [
+              {
+                "type": "practice",
+                "title": "Official SAT Practice Tests Reading & Writing Sections",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "60 minutes"
+              },
+              {
+                "type": "strategy",
+                "title": "SAT Reading and Writing Time Management Tips",
+                "link": "https://blog.prepscholar.com/sat-time-management-tips",
+                "time_estimate": "15 minutes"
+              }
+            ]
+          }
+        ],
+        "saturday": [
+          {
+            "topic": "Full Length SAT Practice Test #1",
+            "resources": [
+              {
+                "type": "full_test",
+                "title": "Official SAT Practice Test 1 by College Board",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "4 hours"
+              }
+            ]
+          }
+        ],
+        "sunday": [
+          {
+            "topic": "Rest and Review Day - Review Mistakes from Practice Test",
+            "resources": [
+              {
+                "type": "review",
+                "title": "How to Review Your SAT Practice Test Mistakes",
+                "link": "https://blog.prepscholar.com/how-to-analyze-sat-practice-test-mistakes",
+                "time_estimate": "1.5 hours"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "week2": {
+      "focus_areas": [
+        "Reading Comprehension Strategies",
+        "Writing Grammar and Style",
+        "Math Problem Solving"
+      ],
+      "daily_schedule": {
+        "monday": [
+          {
+            "topic": "Reading: Inference and Passage Analysis",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy: Inferring Meaning in Reading",
+                "link": "https://www.khanacademy.org/test-prep/sat/reading-strategies/inferential-questions",
+                "time_estimate": "30 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Inferential Reading Practice Questions",
+                "link": "https://www.khanacademy.org/test-prep/sat/reading-evidence-questions",
+                "time_estimate": "40 minutes"
+              }
+            ]
+          }
+        ],
+        "tuesday": [
+          {
+            "topic": "Writing: Sentence Structure and Punctuation",
+            "resources": [
+              {
+                "type": "video",
+                "title": "SAT Writing: Sentence Structure & Punctuation",
+                "link": "https://www.khanacademy.org/test-prep/sat/writing-grammar/sentence-structure-punctuation",
+                "time_estimate": "30 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Practice Sentence Correction Questions",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "45 minutes"
+              }
+            ]
+          }
+        ],
+        "wednesday": [
+          {
+            "topic": "Math: Linear Equations and Systems",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy: Linear Equations",
+                "link": "https://www.khanacademy.org/math/algebra/linear-equations",
+                "time_estimate": "40 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "SAT Math Practice: Linear Systems",
+                "link": "https://www.khanacademy.org/test-prep/sat/math/linear-systems",
+                "time_estimate": "40 minutes"
+              }
+            ]
+          }
+        ],
+        "thursday": [
+          {
+            "topic": "Math: Geometry Basics and Practice",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy: SAT Geometry Concepts",
+                "link": "https://www.khanacademy.org/test-prep/sat/math/geometry",
+                "time_estimate": "40 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Geometry Practice Problems",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "40 minutes"
+              }
+            ]
+          }
+        ],
+        "friday": [
+          {
+            "topic": "Reading and Writing: Integrated practice and essay strategy",
+            "resources": [
+              {
+                "type": "strategy",
+                "title": "SAT Essay Writing Tips (optional but helpful)",
+                "link": "https://blog.prepscholar.com/how-to-write-the-sat-essay",
+                "time_estimate": "30 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Timed Reading & Writing Practice",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "60 minutes"
+              }
+            ]
+          }
+        ],
+        "saturday": [
+          {
+            "topic": "Full Length SAT Practice Test #2",
+            "resources": [
+              {
+                "type": "full_test",
+                "title": "Official SAT Practice Test 2 by College Board",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "4 hours"
+              }
+            ]
+          }
+        ],
+        "sunday": [
+          {
+            "topic": "Rest and Review Mistakes from Test #2",
+            "resources": [
+              {
+                "type": "review",
+                "title": "Test Review Strategies",
+                "link": "https://blog.prepscholar.com/how-to-analyze-sat-practice-test-mistakes",
+                "time_estimate": "1.5 hours"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "week3": {
+      "focus_areas": [
+        "Advanced Reading Strategies",
+        "Grammar and Writing Style",
+        "Math Advanced Topics"
+      ],
+      "daily_schedule": {
+        "monday": [
+          {
+            "topic": "Reading: Analyzing Complex Passages",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy: SAT Reading - Complex Passages",
+                "link": "https://www.khanacademy.org/test-prep/sat/reading-strategies",
+                "time_estimate": "30 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Practice Complex Reading Passages",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "45 minutes"
+              }
+            ]
+          }
+        ],
+        "tuesday": [
+          {
+            "topic": "Writing: Improving Style and Clarity",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy SAT Writing: Expression of Ideas",
+                "link": "https://www.khanacademy.org/test-prep/sat/writing-grammar/expression-of-ideas",
+                "time_estimate": "30 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Writing Practice: Style and Clarity Questions",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "45 minutes"
+              }
+            ]
+          }
+        ],
+        "wednesday": [
+          {
+            "topic": "Math: Polynomials & Quadratic Equations",
+            "resources": [
+              {
+                "type": "video",
+                "title": "Khan Academy: Polynomials and Quadratics",
+                "link": "https://www.khanacademy.org/math/algebra/polynomial-factorization",
+                "time_estimate": "40 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "SAT Math Practice: Quadratic Equations",
+                "link": "https://www.khanacademy.org/test-prep/sat/math",
+                "time_estimate": "45 minutes"
+              }
+            ]
+          }
+        ],
+        "thursday": [
+          {
+            "topic": "Math: Problem Solving with Functions",
+            "resources": [
+              {
+                "type": "video",
+                "title": "SAT Math Functions Overview",
+                "link": "https://www.khanacademy.org/test-prep/sat/math/f-relationships",
+                "time_estimate": "35 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Functions Practice Problems",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "40 minutes"
+              }
+            ]
+          }
+        ],
+        "friday": [
+          {
+            "topic": "Integrated Reading & Writing Timed Practice",
+            "resources": [
+              {
+                "type": "practice",
+                "title": "Timed Reading & Writing Sections Practice",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "90 minutes"
+              },
+              {
+                "type": "strategy",
+                "title": "Pacing Strategies for Reading and Writing",
+                "link": "https://blog.prepscholar.com/sat-time-management-tips",
+                "time_estimate": "20 minutes"
+              }
+            ]
+          }
+        ],
+        "saturday": [
+          {
+            "topic": "Full Length SAT Practice Test #3",
+            "resources": [
+              {
+                "type": "full_test",
+                "title": "Official SAT Practice Test 3 by College Board",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "4 hours"
+              }
+            ]
+          }
+        ],
+        "sunday": [
+          {
+            "topic": "Rest Day and Mistake Review",
+            "resources": [
+              {
+                "type": "review",
+                "title": "Analyzing Practice Test Errors",
+                "link": "https://blog.prepscholar.com/how-to-analyze-sat-practice-test-mistakes",
+                "time_estimate": "1.5 hours"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "week4": {
+      "focus_areas": [
+        "Final Review of Weak Areas",
+        "Full Practice Tests and Strategy Refinement"
+      ],
+      "daily_schedule": {
+        "monday": [
+          {
+            "topic": "Review Math Weak Points and Practice",
+            "resources": [
+              {
+                "type": "practice",
+                "title": "Targeted SAT Math Practice on Weak Topics",
+                "link": "https://www.khanacademy.org/test-prep/sat/math",
+                "time_estimate": "90 minutes"
+              },
+              {
+                "type": "strategy",
+                "title": "Math Tips for Last Minute SAT Prep",
+                "link": "https://blog.prepscholar.com/last-minute-sat-prep-tips",
+                "time_estimate": "15 minutes"
+              }
+            ]
+          }
+        ],
+        "tuesday": [
+          {
+            "topic": "Review Reading and Writing Mistakes",
+            "resources": [
+              {
+                "type": "practice",
+                "title": "Targeted Reading and Writing Practice",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "90 minutes"
+              },
+              {
+                "type": "strategy",
+                "title": "Test Day Tips and Mindset Preparation",
+                "link": "https://blog.prepscholar.com/sat-test-day-tips",
+                "time_estimate": "20 minutes"
+              }
+            ]
+          }
+        ],
+        "wednesday": [
+          {
+            "topic": "Full Length Practice Test #4",
+            "resources": [
+              {
+                "type": "full_test",
+                "title": "Official SAT Practice Test 4 by College Board",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "4 hours"
+              }
+            ]
+          }
+        ],
+        "thursday": [
+          {
+            "topic": "Review Day: Analyze Test #4 Errors",
+            "resources": [
+              {
+                "type": "review",
+                "title": "How to Analyze Errors Effectively",
+                "link": "https://blog.prepscholar.com/how-to-analyze-sat-practice-test-mistakes",
+                "time_estimate": "1.5 hours"
+              }
+            ]
+          }
+        ],
+        "friday": [
+          {
+            "topic": "Final Math Review: Quick Tips & Problem Sets",
+            "resources": [
+              {
+                "type": "video",
+                "title": "SAT Math Test Day Tips",
+                "link": "https://www.khanacademy.org/test-prep/sat/math/time-management",
+                "time_estimate": "20 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Quick Math Problem Sets",
+                "link": "https://www.khanacademy.org/test-prep/sat/math",
+                "time_estimate": "40 minutes"
+              }
+            ]
+          }
+        ],
+        "saturday": [
+          {
+            "topic": "Final Reading & Writing Review",
+            "resources": [
+              {
+                "type": "strategy",
+                "title": "SAT Reading and Writing Final Tips",
+                "link": "https://blog.prepscholar.com/final-sat-prep-tips",
+                "time_estimate": "30 minutes"
+              },
+              {
+                "type": "practice",
+                "title": "Practice Passage Sets",
+                "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+                "time_estimate": "60 minutes"
+              }
+            ]
+          }
+        ],
+        "sunday": [
+          {
+            "topic": "Rest and Relaxation Day, Mental Prep for Test",
+            "resources": [
+              {
+                "type": "strategy",
+                "title": "Mental Preparation for Test Day",
+                "link": "https://blog.prepscholar.com/how-to-relax-before-test",
+                "time_estimate": "20 minutes"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "practice_test_schedule": [
+    {
+      "week": 1,
+      "day": "Saturday",
+      "test_link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests"
+    },
+    {
+      "week": 2,
+      "day": "Saturday",
+      "test_link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests"
+    },
+    {
+      "week": 3,
+      "day": "Saturday",
+      "test_link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests"
+    },
+    {
+      "week": 4,
+      "day": "Wednesday",
+      "test_link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests"
+    }
+  ],
+  "recommended_resources": [
+    {
+      "name": "Khan Academy SAT Prep",
+      "link": "https://www.khanacademy.org/test-prep/sat",
+      "type": "Comprehensive video lessons and practice problems"
+    },
+    {
+      "name": "College Board Official SAT Practice Tests",
+      "link": "https://collegereadiness.collegeboard.org/sat/practice/full-length-practice-tests",
+      "type": "Full-length practice tests with answer keys"
+    },
+    {
+      "name": "PrepScholar SAT Tips and Strategies",
+      "link": "https://blog.prepscholar.com/sat-tips",
+      "type": "Strategy guides and test day tips"
+    }
+  ]
+}
