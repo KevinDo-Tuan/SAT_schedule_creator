@@ -19,285 +19,36 @@ import glob
 from functools import wraps
 import pandas as pd
 
-# Import template filters
-from .filters.template_filters import register_template_filters
+client = OpenAI()
 
-# Load environment variables from .env file
-load_dotenv()
+# Function to create a file with the Files API
+def create_file(file_path):
+  with open(file_path, "rb") as file_content:
+    result = client.files.create(
+        file=file_content,
+        purpose="vision",
+    )
+    return result.id
 
-app = Flask(__name__, static_folder='../frontend', static_url_path='', template_folder='templates')
+# Getting the file ID
+file_id = create_file("path_to_your_image.jpg")
 
-# Configuration
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'recorded_scores')
-SCHEDULES_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'generated_schedules')
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
+response = client.responses.create(
+    model="gpt-4.1-mini",
+    input=[{
+        "role": "user",
+        "content": [
+            {"type": "input_text", "text": "what's in this image?"},
+            {
+                "type": "input_image",
+                "file_id": "/recorded_scores",
+            },
+        ],
+    }],
+)
 
-# Ensure directories exist
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(SCHEDULES_FOLDER, exist_ok=True)
-
-# Configure Tesseract path
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-# Configure session
-app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-secret-key-123')
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
-
-# Store processing status (in production, use Redis or a database)
-processing_status = {}
-
-def get_schedule_path(schedule_id):
-    """Get the path to a schedule file"""
-    return os.path.join(SCHEDULES_FOLDER, f"{schedule_id}.json")
-
-def save_schedule(schedule_data):
-    """Save schedule data to a file and return the schedule ID"""
-    schedule_id = str(uuid.uuid4())
-    schedule_path = get_schedule_path(schedule_id)
+print(response.output_text)
     
-    with open(schedule_path, 'w', encoding='utf-8') as f:
-        json.dump(schedule_data, f, ensure_ascii=False, indent=2)
-    
-    return schedule_id
-
-def get_schedule(schedule_id):
-    """Retrieve a schedule by ID"""
-    schedule_path = get_schedule_path(schedule_id)
-    if not os.path.exists(schedule_path):
-        return None
-    
-    with open(schedule_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
-
-
-def get_latest_pdf():
-    """Get the most recently created PDF file from the recorded_scores directory"""
-    try:
-        # Ensure the directory exists
-        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-        
-        # Get all PDF files in the directory
-        pdf_files = glob.glob(os.path.join(UPLOAD_FOLDER, '*.pdf'))
-        if not pdf_files:
-            print("No PDF files found in the directory")
-            return None
-            
-        # Sort by creation time (newest first) and return the first one
-        latest_pdf = max(pdf_files, key=os.path.getctime)
-        print(f"Found latest PDF: {latest_pdf}")
-        return latest_pdf
-    except Exception as e:
-        print(f"Error finding latest PDF: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return None
-
-def generate_sat_schedule(score_data):
-    """Generate a structured SAT study schedule based on score data"""
-    print("\n=== Starting generate_sat_schedule ===")
-    print(f"Input score_data type: {type(score_data)}")
-    
-    if not score_data:
-        error_msg = "No score data provided"
-        print(f"Error: {error_msg}")
-        return {'error': error_msg}
-    
-    try:
-        print("Calling generate_schedule...")
-        result = generate_schedule(score_data)
-        
-        if not result or 'status' not in result:
-            error_msg = "Invalid response from generate_schedule"
-            print(f"Error: {error_msg}")
-            return {'error': error_msg}
-        
-        if result['status'] == 'error':
-            error_msg = result.get('error', 'Unknown error in generate_schedule')
-            print(f"Error from generate_schedule: {error_msg}")
-            return {'error': error_msg}
-        
-        print(f"Successfully generated schedule with ID: {result.get('schedule_id')}")
-        print(f"Schedule data keys: {result.keys()}")
-        
-        # Ensure the schedule has the required structure
-        schedule = result.get('schedule', {})
-        
-        if 'sections' not in schedule:
-            schedule['sections'] = [
-                {
-                    'name': 'Reading and Writing',
-                    'focus_areas': [],
-                    'study_materials': []
-                },
-                {
-                    'name': 'Math',
-                    'focus_areas': [],
-                    'study_materials': []
-                }
-            ]
-        
-        # Add metadata
-        schedule['generated_at'] = datetime.now().isoformat()
-        schedule['schedule_id'] = result.get('schedule_id')
-        
-        return {
-            'status': 'success',
-            'schedule': schedule,
-            'schedule_id': result.get('schedule_id')
-        }
-        
-    except Exception as e:
-        error_msg = f"Error in generate_sat_schedule: {str(e)}"
-        print(error_msg)
-        import traceback
-        traceback.print_exc()
-        return {'error': error_msg}
-
-def encode_image_to_base64(image_path):
-    """Encode image file to base64 string"""
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
-
-def extract_text_with_gpt4_mini(image_path, file_type):
-    """Extract text using GPT-4.1-mini Vision API"""
-    try:
-        # Initialize the OpenAI client
-        api_key = os.getenv('OPENAI_API_KEY')
-        if not api_key:
-            return {"error": "OPENAI_API_KEY not found in environment variables"}
-        
-        client = OpenAI(api_key=api_key)
-        
-        # Read the file and encode it
-        base64_image = encode_image_to_base64(image_path)
-        
-        # Create the prompt for text extraction
-        prompt = ("Extract all text from this document. Be thorough and include all visible text. "
-                "If this is an SAT score report, extract all scores and section details.")
-        
-        # Make the API call using the specified format
-        response = client.responses.create(
-            model="gpt-4.1-mini",
-            input=prompt,
-            tools=[{"type": "text_extraction"}],
-            image_input=f"data:image/{file_type};base64,{base64_image}"
-        )
-        
-        # Extract the text from the response
-        extracted_text = response.choices[0].message.content
-        
-        if not extracted_text.strip():
-            return {"error": "No text could be extracted from the document"}
-            
-        return {"text": extracted_text, "source": "gpt-4.1-mini"}
-        
-    except Exception as e:
-        return {"error": f"Error processing document with GPT-4.1-mini: {str(e)}"}
-
-def process_image_to_text(image_path):
-    """Extract text from image or PDF using GPT-4.1-mini Vision API"""
-    try:
-        if not os.path.exists(image_path):
-            return {"error": "File not found"}
-            
-        # Get file extension and map to MIME type
-        file_ext = os.path.splitext(image_path.lower())[1][1:]  # Remove the dot
-        
-        if file_ext in ['png', 'jpg', 'jpeg', 'pdf']:
-            # Map file extension to MIME type
-            mime_type = 'pdf' if file_ext == 'pdf' else 'jpeg'  # Use jpeg for all image types
-            
-            # Process with GPT-4.1-mini Vision
-            result = extract_text_with_gpt4_mini(image_path, mime_type)
-            return result
-            
-        else:
-            return {"error": "Unsupported file format. Please upload a PNG, JPG, or PDF file."}
-            
-    except Exception as e:
-        return {"error": f"Unexpected error: {str(e)}"}
-        print(error_msg)
-        return {"error": error_msg}
-
-# Configure OpenAI API
-openai_api_key = os.getenv('OPENAI_API_KEY')
-if not openai_api_key:
-    raise ValueError("OPENAI_API_KEY not found in environment variables")
-
-path_to_prompt = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'prompt.md')
-
-# Register template filters
-register_template_filters(app)
-
-
-
-import traceback
-import sys
-import time
-
-def generate_schedule(image_path):
-    """Generate SAT study schedule using OpenAI's GPT-4 Vision API
-    
-    Args:
-        image_path (str): Path to the image/PDF file to process
-        
-    Returns:
-        dict: Status and generated schedule data
-    """
-    try:
-        print("[generate_schedule] Starting schedule generation...")
-        start_time = time.time()
-        
-        # Initialize the OpenAI client
-        try:
-            api_key = os.getenv('OPENAI_API_KEY')
-            if not api_key:
-                raise ValueError("OPENAI_API_KEY not found in environment variables")
-                
-            client = OpenAI(api_key=api_key)
-        except Exception as init_error:
-            print("[generate_schedule] OpenAI client initialization failed:", init_error)
-            traceback.print_exc()
-            return {
-                'status': 'error',
-                'error': f'OpenAI client initialization failed: {init_error}'
-            }
-        
-        # Read the prompt from the file
-        
-        
-    except Exception as e:
-        print(f"[generate_schedule] Unexpected error: {str(e)}")
-        traceback.print_exc()
-        return {
-            'status': 'error',
-            'error': str(e)
-        }
-
-def allowed_file(filename):
-    """Check if the file has an allowed extension"""
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def save_uploaded_file(file):
-    """Save uploaded file and return its path"""
-    if not file or file.filename == '':
-        return None, "No file selected"
-        
-    if not allowed_file(file.filename):
-        return None, "File type not allowed"
-    
-    # Create a unique filename
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    file_ext = file.filename.rsplit('.', 1)[1].lower()
-    filename = f"upload_{timestamp}.{file_ext}"
-    filepath = os.path.join(UPLOAD_FOLDER, filename)
-    
-    try:
-        # Save the file
-        file.save(filepath)
-        return filepath, None
-    except Exception as e:
-        return None, f"Error saving file: {str(e)}"
 
 @app.route('/')
 def index():
